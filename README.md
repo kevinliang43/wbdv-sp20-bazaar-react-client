@@ -1,10 +1,12 @@
-## Bazaar React Client (Spring 2020 WebDev CS4550 Project)
+# Bazaar React Client (Spring 2020 WebDev CS4550 Project)
 Bazaar, a buying/selling platform
 
-## Project Description
+# Project Description
 
 Click [here](https://docs.google.com/document/d/15P-kD-6Xecy23185pkeDW9y2AOa3eSNOLCfQKAuWYYo/edit?usp=sharing) to learn more about the Bazaar Platform
 
+
+# React Bootstrap Info
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
