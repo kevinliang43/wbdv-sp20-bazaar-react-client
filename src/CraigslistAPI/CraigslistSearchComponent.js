@@ -1,56 +1,51 @@
 import React from "react";
 import {Client} from "node-craigslist"
+import {searchListings} from "../services/CraigslistService"
 
 
 export default class CraigslistSearchComponent extends React.Component {
 
     componentDidMount() {
-        let searchPost = this.props.match.params.searchPost;
-        console.log(searchPost)
-        if(searchPost) {
-            // this.props.craigslistClient.search(searchPost)
-            // this.craigslistClient.search(searchPost)
-            // .then(response => response.json())
-            // .then(results => console.log(results))
-            this.searchPosts(searchPost)
+        let searchQuery = this.props.match.params.searchPost;
+        if(searchQuery) {
+            this.getListings(searchQuery)
         }
-
-
     }
 
     state = {
-        posts : [],
-        searchPost: '',
+        listings : [],
+        searchQuery: '',
         city: 'boston'
     }
 
     craigslistClient = new Client({city : 'boston'})
 
 
-    searchPosts = (searchQuery) => {
-        this.props.history.push(`/search/${searchQuery}`)
-        fetch(`https://${this.state.city}.craigslist.org/search/sss?sort=rel&query=${searchQuery}`,
-            {headers: {'content-type': 'application/json'}})
-            .then(response => response.json())
-            .then(results => console.log(results))
+    getListings = (searchQuery) => {
+        searchListings(this.state.city, searchQuery, 20)
+            .then(results => this.setState({
+                listings : results
+            }))
+
+
     }
 
     render() {
         return (
             <div>
-            <h2>Search Posts</h2>
+            <h2>Search Listings</h2>
             <input className={`form-control`}
-                    onChange={e => this.setState({searchPost: e.target.value})}
-                    value={this.state.searchPost}/>
+                    onChange={e => this.setState({searchQuery: e.target.value})}
+                    value={this.state.searchQuery}/>
             <button className={`btn btn-success btn-block`}
-                    onClick={() => this.searchPosts(this.state.searchPost)}>
-                        Search For Posts
+                    onClick={() => this.getListings(this.state.searchQuery)}>
+                        Search For Listings
             </button>
 
             <ul className={`list-group`}>
-                {this.state.posts.map((post, i) =>
-                    <li className={`list-group-item`} key={i}>
-                        {post}
+                {this.state.listings.map((listing, idx) =>
+                    <li className={`list-group-item`} key={idx}>
+                        {listing.title + " -- Price:" + listing.price}
                     </li>
                 )
 
