@@ -18,7 +18,9 @@ const parseListings = (pageHTML, limit) => {
                 pid : ($(row).attr('data-pid') || '').trim(),
                 price : ($(row).find('.result-meta .result-price').text() || '').replace(/^\&\#x0024\;/g, '').trim(), 
                 date : ($(row).find('time').attr('datetime') || '').trim(),
-                listingUrl : ($(row).find('.result-title').attr('href'))
+                listingUrl : ($(row).find('.result-title').attr('href')),
+                imagePaths : ($(row).find('.result-image').attr('data-ids') || '').trim().split(',')
+                                .map(imPath => imPath.split(":")[1])
             };
             listings = [...listings, listing]
             if (listings.length >= limit) {
