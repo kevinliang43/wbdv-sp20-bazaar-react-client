@@ -1,5 +1,6 @@
 import React from "react";
 import {Client} from "node-craigslist"
+import ListComponent from "../components/ListComponent"
 import {searchListings} from "../services/CraigslistService"
 
 
@@ -41,9 +42,10 @@ export default class CraigslistSearchComponent extends React.Component {
 
             <ul className={`list-group`}>
                 {this.state.listings.map((listing, idx) =>
-                    <li className={`list-group-item`} key={idx}>
-                        {listing.title + " -- Price:" + listing.price}
-                    </li>
+                        <ListComponent
+                            idx={idx}
+                            listing={listing}
+                        />
                 )
 
                 }
