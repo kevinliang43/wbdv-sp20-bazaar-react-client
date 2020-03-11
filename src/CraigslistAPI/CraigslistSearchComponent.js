@@ -18,9 +18,6 @@ export default class CraigslistSearchComponent extends React.Component {
         city: 'boston'
     }
 
-    craigslistClient = new Client({city : 'boston'})
-
-
     getListings = (searchQuery) => {
         searchListings(this.state.city, searchQuery, 20)
             .then(results => this.setState({
