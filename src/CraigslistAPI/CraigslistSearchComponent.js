@@ -9,9 +9,10 @@ export default class CraigslistSearchComponent extends React.Component {
         console.log(searchPost)
         if(searchPost) {
             // this.props.craigslistClient.search(searchPost)
-            this.craigslistClient.search(searchPost)
-            .then(response => response.json())
-            .then(results => console.log(results))
+            // this.craigslistClient.search(searchPost)
+            // .then(response => response.json())
+            // .then(results => console.log(results))
+            this.searchPosts(searchPost)
         }
 
 
@@ -19,7 +20,8 @@ export default class CraigslistSearchComponent extends React.Component {
 
     state = {
         posts : [],
-        searchPost: ''
+        searchPost: '',
+        city: 'boston'
     }
 
     craigslistClient = new Client({city : 'boston'})
@@ -27,8 +29,8 @@ export default class CraigslistSearchComponent extends React.Component {
 
     searchPosts = (searchQuery) => {
         this.props.history.push(`/search/${searchQuery}`)
-        // this.props.craigslistClient.search(searchQuery)
-        this.craigslistClient.search(searchQuery)
+        fetch(`https://${this.state.city}.craigslist.org/search/sss?sort=rel&query=${searchQuery}`,
+            {headers: {'content-type': 'application/json'}})
             .then(response => response.json())
             .then(results => console.log(results))
     }
