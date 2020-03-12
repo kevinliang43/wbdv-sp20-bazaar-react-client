@@ -1,14 +1,20 @@
 import cheerio from 'cheerio'
 import {proxyUrl} from '../constants'
+
 export const searchListings =(location, searchQuery, limit) =>
     fetch(proxyUrl + `https://${location}.craigslist.org/search/sss?sort=rel&query=${searchQuery}`)
         .then(response => response.text())
         .then(resultHTML => parseListings(resultHTML, limit))
 
+export const getListingDetails = (listingUrl) =>
+    fetch(proxyUrl + listingUrl)
+        .then(response => response.text())
+        .then(resultHTML => parseListingDetails(resultHTML))
+
 const parseListings = (pageHTML, limit) => {
+    // Credit for DOM Parsing to get JSON Elements: https://github.com/brozeph/node-craigslist
     let $ = cheerio.load(pageHTML);
     let listings = []
-
     $('div.content')
         .find('.result-row')
         .each((idx, row) => {
@@ -27,6 +33,15 @@ const parseListings = (pageHTML, limit) => {
             }
         })
     return listings;
+}
+
+const parseListingDetails = (pageHTML) => {
+    // Credit for DOM Parsing to get JSON Elements: https://github.com/brozeph/node-craigslist
+    let $ = cheerio.load(pageHTML);
+    let details = {
+        description: ($('#postingbody').text() || '').trim()
+    }
+    return details
 }
         
 
