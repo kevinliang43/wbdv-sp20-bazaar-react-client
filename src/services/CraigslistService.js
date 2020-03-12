@@ -8,7 +8,6 @@ export const searchListings =(location, searchQuery, limit) =>
 const parseListings = (pageHTML, limit) => {
     let $ = cheerio.load(pageHTML);
     let listings = []
-    console.log(pageHTML);
 
     $('div.content')
         .find('.result-row')
@@ -27,7 +26,6 @@ const parseListings = (pageHTML, limit) => {
                 return false;
             }
         })
-    console.log(listings);
     return listings;
 }
         
