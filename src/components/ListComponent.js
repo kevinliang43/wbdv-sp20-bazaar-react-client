@@ -12,7 +12,9 @@ class ListComponent extends React.Component {
                     </div>
                     <div className="col-9">
                         <div className ="d-flex w-100 justify-content-between">
-                            <h5>{this.props.listing.title}</h5>
+                            <Link to={`/posts/${this.props.city}/${this.props.listing.pid}`}>
+                                <h5>{this.props.listing.title}</h5>
+                            </Link>
                             <small>{this.props.listing.date}</small>
                         </div>
                         <p className="mb-1">
