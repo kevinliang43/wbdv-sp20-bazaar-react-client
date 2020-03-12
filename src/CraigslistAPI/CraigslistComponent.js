@@ -17,12 +17,12 @@ export default class CraigslistComponent extends React.Component {
                     component={CraigslistSearchComponent}/>
 
                 <Route
-                    path={`/search/:searchPost`}
+                    path={`/search/:city/:searchPost`}
                     exact={true}
                     component={CraigslistSearchComponent}/>
 
                 <Route
-                    path={`/posts/:postID`}
+                    path={`/posts/:city/:listingID`}
                     exact={true}
                     component={CraigslistPostDetailsComponent}/>
 
