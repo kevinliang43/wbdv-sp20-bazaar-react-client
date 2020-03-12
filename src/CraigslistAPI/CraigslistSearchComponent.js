@@ -20,6 +20,7 @@ export default class CraigslistSearchComponent extends React.Component {
     }
 
     getListings = (searchQuery) => {
+        this.props.history.push(`/search/${searchQuery}`)
         searchListings(this.state.city, searchQuery, 20)
             .then(results => this.setState({
                 listings : results
