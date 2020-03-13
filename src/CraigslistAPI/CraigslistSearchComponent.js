@@ -2,6 +2,7 @@ import React from "react";
 import ListingRowComponent from "../components/ListingRowComponent"
 import {searchListings} from "../services/CraigslistService"
 import {defaultCity} from "../constants"
+import {normalizeCity} from "../utils/StringUtils"
 import ListingCardComponent from "../components/ListingCardComponent";
 
 
@@ -29,16 +30,12 @@ export default class CraigslistSearchComponent extends React.Component {
         if (!searchCity.replace(/\s/g, '')) {
             searchCity = defaultCity;
         }
-        searchCity = this.normalizeCity(searchCity);
+        searchCity = normalizeCity(searchCity);
         this.props.history.push(`/search/${searchCity}/${searchQuery}`)
         searchListings(searchCity, searchQuery, 20)
             .then(results => this.setState({
                 listings : results
             }))
-    }
-
-    normalizeCity = (cityString) => {
-        return cityString.toLowerCase().replace(/\s/g, '')
     }
 
     render() {
