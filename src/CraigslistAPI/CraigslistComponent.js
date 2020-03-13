@@ -9,8 +9,8 @@ export default class CraigslistComponent extends React.Component {
     render() {
         return (
             <div className={`container-fluid`}>
-                <NavBarComponent/>
                 <Router>
+                    <NavBarComponent/>
 
                     <Route
                         path={`/`}
