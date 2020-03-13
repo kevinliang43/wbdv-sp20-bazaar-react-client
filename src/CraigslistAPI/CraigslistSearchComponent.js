@@ -24,6 +24,9 @@ export default class CraigslistSearchComponent extends React.Component {
     }
 
     getListings = (searchCity, searchQuery) => {
+        if (!searchCity.replace(/\s/g, '')) {
+            searchCity = defaultCity;
+        }
         searchCity = this.normalizeCity(searchCity);
         this.props.history.push(`/search/${searchCity}/${searchQuery}`)
         searchListings(searchCity, searchQuery, 20)
