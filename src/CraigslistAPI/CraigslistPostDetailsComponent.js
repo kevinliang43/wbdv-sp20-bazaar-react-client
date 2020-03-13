@@ -21,18 +21,18 @@ export default class CraigslistPostDetailsComponent extends React.Component {
 
     render() {
         return (
-            <div>            
-                {console.log(this.state)}
-
-                <h2>{this.state.listing.title}</h2>
-                <h3>{this.state.listing.price}</h3>
-                <p>{this.state.listing.description}</p>
-                {this.state.listing.imagePaths.map((imagePath) => 
-                    <img className="w-75 h-100" src={`https://images.craigslist.org/${imagePath}_300x300.jpg`}></img>)}
-         </div>
-
+            <div>
+                <h2 className="mt-3">{this.state.listing.title}</h2>
+                <h4>{this.state.listing.price}</h4>
+                <div className="row">
+                    <div className="col"><p>{this.state.listing.description}</p></div>
+                    <div className="col-8">{this.state.listing.imagePaths.map((imagePath) =>
+                        <img className="m-3"
+                             src={`https://images.craigslist.org/${imagePath}_300x300.jpg`}/>
+                    )}
+                    </div>
+                </div>
+            </div>
         )
-
     }
-    
 }
