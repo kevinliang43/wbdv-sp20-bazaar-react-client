@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom"
+import './ListingRowComponent.css'
 
 class ListingRowComponent extends React.Component {
 
@@ -8,7 +9,9 @@ class ListingRowComponent extends React.Component {
             <li className="list-group-item" key={this.props.idx}>
                 <span className="row">
                     <div className="col-3">
-                        <img className="w-75 h-100" src={`https://images.craigslist.org/${this.props.listing.imagePaths[0]}_300x300.jpg`}></img>
+                        <img className="row-img"
+                            src={`https://images.craigslist.org/${this.props.listing.imagePaths[0]}_300x300.jpg`}
+                            alt='No Images Available'></img>
                     </div>
                     <div className="col-9">
                         <div className ="d-flex w-100 justify-content-between">
