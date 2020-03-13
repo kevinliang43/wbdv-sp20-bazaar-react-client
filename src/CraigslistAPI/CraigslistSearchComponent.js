@@ -15,6 +15,7 @@ export default class CraigslistSearchComponent extends React.Component {
             this.setState({city: searchCity})
         }
         if (searchQuery) {
+            this.setState({searchQuery: searchQuery})
             this.getListings(searchCity, searchQuery)
         }
     }
@@ -42,10 +43,10 @@ export default class CraigslistSearchComponent extends React.Component {
         return (
             <div>
             <h2>Search Listings</h2>
-            {this.state.view == 'LIST' &&
+            {this.state.view === 'LIST' &&
                 <button onClick={() => this.setState({view: 'GRID'})}>Grid View</button>
             }
-            {this.state.view == 'GRID' &&
+            {this.state.view === 'GRID' &&
                 <button onClick={() => this.setState({view: 'LIST'})}>List View</button>
             }
             <input className={`form-control`}
