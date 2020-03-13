@@ -1,5 +1,5 @@
 import React from "react";
-import ListComponent from "../components/ListComponent"
+import ListingRowComponent from "../components/ListingRowComponent"
 import {searchListings} from "../services/CraigslistService"
 import {defaultCity} from "../constants"
 
@@ -58,7 +58,7 @@ export default class CraigslistSearchComponent extends React.Component {
             </button>
             <ul className={`list-group mt-2`}>
                 {this.state.listings.map((listing, idx) =>
-                        <ListComponent
+                        <ListingRowComponent
                             idx={idx}
                             listing={listing}
                             city={this.state.city}

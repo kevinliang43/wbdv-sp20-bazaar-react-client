@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom"
 
-class ListComponent extends React.Component {
+class ListingRowComponent extends React.Component {
 
     render() {
         return (
@@ -30,4 +30,4 @@ class ListComponent extends React.Component {
     }
 }
 
-export default ListComponent
+export default ListingRowComponent
