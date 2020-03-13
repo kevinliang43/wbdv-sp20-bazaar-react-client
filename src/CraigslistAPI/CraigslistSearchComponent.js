@@ -2,6 +2,7 @@ import React from "react";
 import ListingRowComponent from "../components/ListingRowComponent"
 import {searchListings} from "../services/CraigslistService"
 import {defaultCity} from "../constants"
+import ListingCardComponent from "../components/ListingCardComponent";
 
 
 export default class CraigslistSearchComponent extends React.Component {
@@ -20,7 +21,8 @@ export default class CraigslistSearchComponent extends React.Component {
     state = {
         listings : [],
         searchQuery: '',
-        city: ''
+        city: '',
+        view: 'GRID'
     }
 
     getListings = (searchCity, searchQuery) => {
@@ -43,6 +45,12 @@ export default class CraigslistSearchComponent extends React.Component {
         return (
             <div>
             <h2>Search Listings</h2>
+            {this.state.view == 'LIST' &&
+                <button onClick={() => this.setState({view: 'GRID'})}>Grid View</button>
+            }
+            {this.state.view == 'GRID' &&
+                <button onClick={() => this.setState({view: 'LIST'})}>List View</button>
+            }
             <input className={`form-control`}
                     onChange={e => this.setState({searchQuery: e.target.value})}
                     value={this.state.searchQuery}
@@ -56,17 +64,27 @@ export default class CraigslistSearchComponent extends React.Component {
                     onClick={() => this.getListings(this.state.city, this.state.searchQuery)}>
                         Search
             </button>
-            <ul className={`list-group mt-2`}>
-                {this.state.listings.map((listing, idx) =>
-                        <ListingRowComponent
+                {this.state.view === 'LIST' && 
+
+                    <ul className={`list-group mt-2`}>
+                        {this.state.listings.map((listing, idx) =>
+                                <ListingRowComponent
+                                    idx={idx}
+                                    listing={listing}
+                                    city={this.state.city}/>
+                        )}
+                    </ul>
+                }
+                {this.state.view === 'GRID' && 
+                    <div className="card-deck row m-1 no-gutters">
+                        {this.state.listings.map((listing, idx) =>
+                        <ListingCardComponent
                             idx={idx}
                             listing={listing}
-                            city={this.state.city}
-                        />
-                )
-
+                            city={this.state.city}/>
+                    )}
+                    </div>
                 }
-            </ul>
         </div>
         )
     }
