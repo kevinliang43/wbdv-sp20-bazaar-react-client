@@ -5,6 +5,21 @@ Bazaar, a buying/selling platform
 
 Click [here](https://docs.google.com/document/d/15P-kD-6Xecy23185pkeDW9y2AOa3eSNOLCfQKAuWYYo/edit?usp=sharing) to learn more about the Bazaar Platform
 
+# PROTOTYPE
+
+The API we used was the Craigslist API but we added modifications to it so that it would behave in the way we want it to. 
+
+The search criteria is divided up by two search bars: one to search for the type of product and one to search for the location
+for this product. 
+
+Upon typing valid inputs into these two search criteria, the summary page will be displayed showing all of the products that include what the user typed in and are in the area that the user typed in. The summary page can be toggled between two views - grid view and card view. The information shown for each individual product is a concatenated version of the title of the product, the price of the product, and the first picture in the gallery of the product. If the product does not have any pictures then there will be no immage shown on the summary page for that individual product. 
+
+Clicking on a product will direct the user to that product's details page. The details page shows the product's full title, its price,
+a description of the product, and every image in its gallery. 
+
+An example query is if I type "Nintendo Switch" in the listing search bar and "New York" in the location search bar, I will be directed to a summary page that is a list of Nintendo Switch products in New York based off of the information gathered with the
+Craigslist API. If I were to click on one product, I would see what the seller titled the product, the price the seller gave it, any pictures that the seller uploaded of the product, and a description created by the seller.
+
 
 # React Bootstrap Info
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
