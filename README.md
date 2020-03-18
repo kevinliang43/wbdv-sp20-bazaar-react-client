@@ -40,6 +40,9 @@ Clicking on a product will direct the user to that listings's details page. The 
 6. Listing Details page will show the Title, Price, Description and all Images associated with the Listing.
 7. Click the 'Bazaar' label on the Navbar to be redirected to the main Listings Search page.
 
+## Prototype Heroku Instance
+Click here to use the Prototype: https://wbdv-sp20-bazaar-client-react.herokuapp.com/
+
 
 # React Bootstrap Info
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
