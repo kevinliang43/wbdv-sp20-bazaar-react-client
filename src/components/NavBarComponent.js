@@ -11,7 +11,7 @@ export default class NavBarComponent extends React.Component {
 
     render() {
         return (
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark row">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark row sticky-top">
                 <a class="navbar-brand" href="/">Bazaar</a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
