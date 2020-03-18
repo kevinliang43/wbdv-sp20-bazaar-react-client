@@ -1,5 +1,6 @@
 import React from "react";
 import {getListingDetails, searchListings}from "../services/CraigslistService"
+import {parseDate} from "../utils/StringUtils"
 
 export default class CraigslistPostDetailsComponent extends React.Component {
 
@@ -25,7 +26,15 @@ export default class CraigslistPostDetailsComponent extends React.Component {
                 <h2 className="mt-3">{this.state.listing.title}</h2>
                 <h4>{this.state.listing.price}</h4>
                 <div className="row">
-                    <div className="col"><p>{this.state.listing.description}</p></div>
+                    <div className="col">
+                        <p>{this.state.listing.description}</p>
+                        <br/>
+                        <p>Posted: {parseDate(this.state.listing.date)}</p>
+                        {this.state.listing.source === 'craigslist' &&
+                            <a className="btn btn-success" href={this.state.listing.listingUrl}>
+                                View Listing on Craigslist
+                            </a>}
+                    </div>
                     <div className="col-8">{this.state.listing.imagePaths.map((imagePath) =>
                         <img className="m-3"
                              src={`https://images.craigslist.org/${imagePath}_300x300.jpg`}/>
