@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom"
 import './ListingCardComponent.css'
+import {parseDate} from "../utils/StringUtils"
 
 class ListingCardComponent extends React.Component {
 
@@ -20,6 +21,7 @@ class ListingCardComponent extends React.Component {
                         </Link>
                         <h6 class="card-subtitle text-muted">Price: {this.props.listing.price}</h6>
                     </div>
+                    <p>Posted: {parseDate(this.props.listing.date)}</p>
                     <br/>
                 </div>
                 </div>

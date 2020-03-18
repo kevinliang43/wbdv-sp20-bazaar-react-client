@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom"
+import {parseDate} from "../utils/StringUtils"
 import './ListingRowComponent.css'
 
 class ListingRowComponent extends React.Component {
@@ -18,7 +19,7 @@ class ListingRowComponent extends React.Component {
                             <Link to={`/posts/${this.props.city}/${this.props.listing.pid}`}>
                                 <h5>{this.props.listing.title}</h5>
                             </Link>
-                            <small>{this.props.listing.date}</small>
+                            <small>Posted: {parseDate(this.props.listing.date)}</small>
                         </div>
                         <p className="mb-1">
                             Price: {this.props.listing.price}
