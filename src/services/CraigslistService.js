@@ -20,6 +20,7 @@ const parseListings = (pageHTML, limit) => {
         .each((idx, row) => {
             let listing = {
                 title : ($(row).find('.result-title').text() || '').trim(),
+                source : 'craigslist',
                 pid : ($(row).attr('data-pid') || '').trim(),
                 price : ($(row).find('.result-meta .result-price').text() || '').replace(/^\&\#x0024\;/g, '').trim(), 
                 date : ($(row).find('time').attr('datetime') || '').trim(),
