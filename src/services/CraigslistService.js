@@ -40,7 +40,7 @@ const parseListingDetails = (pageHTML) => {
     // Credit for DOM Parsing to get JSON Elements: https://github.com/brozeph/node-craigslist
     let $ = cheerio.load(pageHTML);
     let details = {
-        description: ($('#postingbody').text() || '').trim()
+        description: ($('#postingbody').text() || '').trim().replace('QR Code Link to This Post', '')
     }
     return details
 }
