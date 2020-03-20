@@ -1,8 +1,8 @@
 import React from 'react';
-import CraigslistComponent from "./CraigslistAPI/CraigslistComponent"
+import BazaarContainer from "./containers/BazaarContainer"
 import './App.css';
 
 const App = () => 
-    <CraigslistComponent/>
+    <BazaarContainer/>
 
 export default App;
