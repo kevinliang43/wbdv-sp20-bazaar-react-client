@@ -31,6 +31,11 @@ export default class BazaarContainer extends React.Component {
                     component={LoginComponent}/>
 
                 <Route
+                    path={`/register`}
+                    exact={true}
+                    component={RegisterComponent}/>
+
+                <Route
                     path={`/privacypolicy`}
                     exact={true}
                     component={PrivacyPolicyComponent}/>
