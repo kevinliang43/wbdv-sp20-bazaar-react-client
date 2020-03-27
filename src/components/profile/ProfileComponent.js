@@ -155,7 +155,7 @@ const ProfileComponent = () =>
                     <div className="form-group row">
                         <label className="col-sm col-form-label"/>
                         <div className="col-sm-10">
-                            <button className="btn btn-primary btn-block"
+                            <button className="btn btn-block btn-danger"
                                     id="updateBtn" type="button">Update
                             </button>
                         </div>
