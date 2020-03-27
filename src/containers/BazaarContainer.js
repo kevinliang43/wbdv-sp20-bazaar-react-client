@@ -3,6 +3,7 @@ import CraigslistComponent from "../CraigslistAPI/CraigslistComponent"
 import LoginComponent from "../components/login/LoginComponent"
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import RegisterComponent from "../components/register/RegisterComponent";
+import ProfileComponent from "../components/profile/ProfileComponent";
 
 export default class BazaarContainer extends React.Component {
 
@@ -33,6 +34,11 @@ export default class BazaarContainer extends React.Component {
                     path={`/register`}
                     exact={true}
                     component={RegisterComponent}/>
+
+                <Route
+                    path={`/profile`}
+                    exact={true}
+                    component={ProfileComponent}/>
             </Router>
 
         )
