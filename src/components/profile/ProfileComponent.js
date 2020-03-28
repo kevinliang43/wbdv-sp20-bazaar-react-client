@@ -194,7 +194,7 @@ export default class ProfileComponent extends React.Component {
                     </div>
                     <div className="col border border-success">
                         <h3>
-                            My Listings
+                            Listings
                         </h3>
                         {this.state.view === 'LIST' && searchListings("boston", "tamagotchi", 20)
                             .then(results => this.setState({
