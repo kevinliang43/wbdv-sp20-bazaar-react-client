@@ -16,7 +16,8 @@ export default class ProfileComponent extends React.Component {
         listings : [],
         searchQuery: '',
         city: 'boston',
-        view: 'LIST'
+        view: 'LIST',
+        editing: true
     };
 
 
@@ -27,7 +28,7 @@ export default class ProfileComponent extends React.Component {
                 <h1>Profile</h1>
                 <div className="row">
                     <div className="col-4 border border-success">
-                        <form className="pt-3">
+                        {this.state.editing && <form className="pt-3">
                             <div className="form-group row bazaar-public">
                                 <label htmlFor="usernameFld" className="col-sm col-form-label">
                                     Username
@@ -170,11 +171,26 @@ export default class ProfileComponent extends React.Component {
                             <div className="form-group row">
                                 <div className="col-sm">
                                     <button className="btn btn-block btn-success"
-                                            id="updateBtn" type="button">Update
+                                            id="updateBtn" type="button" onClick={() => this.setState({editing: false})}>Update
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                        </form>}
+                        {!this.state.editing &&
+                        <div className="col mt-4">
+                            <img className="justify-content-center img-responsive" src={"./defaultProfilePic.jpg"} height="200" width="200"/>
+                            <h3 className="mt-2">
+                                dhong82
+                            </h3>
+                            <span>
+                                <b>Operating Location: </b>
+                                Boston, Massachusetts
+                            </span>
+                            <button className="btn btn-block btn-success mt-3"
+                                    id="updateBtn" type="button" onClick={() => this.setState({editing: true})}>Edit Profile
+                            </button>
+                        </div>
+                        }
                     </div>
                     <div className="col border border-success">
                         <h3>
