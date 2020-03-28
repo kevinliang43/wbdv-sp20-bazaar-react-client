@@ -4,6 +4,8 @@ import LoginComponent from "../components/login/LoginComponent"
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import RegisterComponent from "../components/register/RegisterComponent";
 import HomeComponent from "../components/home/HomeComponent";
+import PrivacyPolicyComponent from "../components/privacypolicy/PrivacyPolicyComponent";
+import ProfileComponent from "../components/profile/ProfileComponent";
 
 export default class BazaarContainer extends React.Component {
 
@@ -39,6 +41,16 @@ export default class BazaarContainer extends React.Component {
                     path={`/register`}
                     exact={true}
                     component={RegisterComponent}/>
+
+                <Route
+                    path={`/privacypolicy`}
+                    exact={true}
+                    component={PrivacyPolicyComponent}/>
+          
+                <Route
+                    path={`/profile`}
+                    exact={true}
+                    component={ProfileComponent}/>
             </Router>
 
         )
