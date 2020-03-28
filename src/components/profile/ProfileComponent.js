@@ -186,7 +186,7 @@ export default class ProfileComponent extends React.Component {
                                 <b>Operating Location: </b>
                                 Boston, Massachusetts
                             </span>
-                            <button className="btn btn-block btn-success mt-3"
+                            <button className="btn btn-block btn-success my-3"
                                     id="updateBtn" type="button" onClick={() => this.setState({editing: true})}>Edit Profile
                             </button>
                         </div>
