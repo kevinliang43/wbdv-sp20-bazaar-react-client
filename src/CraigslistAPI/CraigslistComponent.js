@@ -13,7 +13,7 @@ export default class CraigslistComponent extends React.Component {
                     <NavBarComponent/>
 
                     <Route
-                        path={`/`}
+                        path={`/search`}
                         exact={true}
                         component={CraigslistSearchComponent}/>
 
