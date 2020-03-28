@@ -17,8 +17,13 @@ const PrivacyPolicyComponent = () =>
                     your phone number, user content such as pictures or anything you provide from
                     listing posts, and your location. Bazaar promises that none of this
                     information will be given out to others or sold for any dark practices.
-                    Bazaar hopes you continue to enjoy our services and remain a happy user of our
-                    website.
+                    This information is collected from what you as the user provide Bazaar and we on
+                    our end use this information to create your own profile and give you the most
+                    accurate and up to date listing results that you are searching for. Bazaar
+                    and you, the user, are the only ones who will be able to view your private
+                    information. All of the information that Bazaar has collected from you is stored
+                    in our own protected databases. Bazaar hopes you continue to enjoy our services
+                    and remain a happy user of our website.
                 </p>
             </div>
         </div>
