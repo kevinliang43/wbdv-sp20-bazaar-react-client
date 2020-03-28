@@ -20,6 +20,14 @@ export default class ProfileComponent extends React.Component {
         editing: true
     };
 
+    componentDidMount() {
+        searchListings("boston", "tamagotchi", 20)
+            .then(results => this.setState({
+                listings: results
+                }
+            ))
+    }
+
 
     render() {
         return (
@@ -178,7 +186,7 @@ export default class ProfileComponent extends React.Component {
                         </form>}
                         {!this.state.editing &&
                         <div className="col mt-4">
-                            <img className="justify-content-center img-responsive" src={"./defaultProfilePic.jpg"} height="200" width="200"/>
+                            <img className="justify-content-center img-fluid" src={"./defaultProfilePic.jpg"} height="200" width="200"/>
                             <h3 className="mt-2">
                                 dhong82
                             </h3>
@@ -196,10 +204,7 @@ export default class ProfileComponent extends React.Component {
                         <h3>
                             Listings
                         </h3>
-                        {this.state.view === 'LIST' && searchListings("boston", "tamagotchi", 20)
-                            .then(results => this.setState({
-                                listings: results
-                            })) &&
+                        {this.state.view === 'LIST' &&
                         <div className="list-group mt-2">
                             {this.state.listings.map((listing, idx) =>
                                 <ListingRowComponent
