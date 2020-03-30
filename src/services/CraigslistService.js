@@ -6,6 +6,11 @@ export const searchListings =(location, searchQuery, limit) =>
         .then(response => response.text())
         .then(resultHTML => parseListings(resultHTML, limit))
 
+export const getRecentListings =(location, limit) =>
+    fetch(proxyUrl + `https://${location}.craigslist.org/search/sss`)
+        .then(response => response.text())
+        .then(resultHTML => parseListings(resultHTML, limit))
+
 export const getListingDetails = (listingUrl) =>
     fetch(proxyUrl + listingUrl)
         .then(response => response.text())
