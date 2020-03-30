@@ -2,7 +2,7 @@ import React from "react";
 import "./PrivacyPolicyComponent.css"
 
 const PrivacyPolicyComponent = () =>
-    <div class="row d-flex justify-content-center bg-dark">
+    <div className="row d-flex justify-content-center bg-dark">
         <div className="col-sm-6 col-10 text-center">
             <div className="text-white">
                 <h1 className="display-2 mt-5">Privacy Policy</h1>

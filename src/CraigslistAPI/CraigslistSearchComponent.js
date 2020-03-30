@@ -5,7 +5,6 @@ import {defaultCity} from "../constants"
 import {normalizeCity} from "../utils/StringUtils"
 import ListingCardComponent from "../components/ListingCardComponent";
 
-
 export default class CraigslistSearchComponent extends React.Component {
 
     componentDidMount() {
@@ -95,7 +94,6 @@ export default class CraigslistSearchComponent extends React.Component {
                     )}
                 </div>
             }
-            
         </div>
         )
     }
