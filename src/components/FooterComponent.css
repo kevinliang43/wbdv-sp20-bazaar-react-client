@@ -1,7 +1,7 @@
-a {
+a.privacy {
     color: lightgray;
 }
 
-a:hover {
+a.privacy:hover {
     color: grey;
 }
