@@ -134,7 +134,8 @@ const RegisterComponent = () =>
 
                 <div className="form-group row">
                     <button className="btn btn-block btn-success">Register</button>
-                    <a className="btn btn-block btn-danger" href="/login">Cancel</a>
+                    <a className="btn btn-block btn-success" href="/login">Login</a>
+                    <a className="btn btn-block btn-danger" href="/">Cancel</a>
                 </div>
             </form>
 
