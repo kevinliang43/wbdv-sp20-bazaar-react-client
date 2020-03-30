@@ -32,7 +32,7 @@ const LoginComponent = () =>
                 <div className="form-group row">
                     <button className="btn btn-block btn-success">Login</button>
                     <a className="btn btn-block btn-success" href="/register">Register</a>
-                    <button className="btn btn-block btn-danger">Cancel</button>
+                    <a className="btn btn-block btn-danger" href="/">Cancel</a>
                 </div>
             </form>
 
