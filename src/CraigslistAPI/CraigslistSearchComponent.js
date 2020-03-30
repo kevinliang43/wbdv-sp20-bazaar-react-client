@@ -4,6 +4,7 @@ import {searchListings} from "../services/CraigslistService"
 import {defaultCity} from "../constants"
 import {normalizeCity} from "../utils/StringUtils"
 import ListingCardComponent from "../components/ListingCardComponent";
+import './CraigslistSearchComponent.css'
 
 
 export default class CraigslistSearchComponent extends React.Component {
@@ -95,7 +96,11 @@ export default class CraigslistSearchComponent extends React.Component {
                     )}
                 </div>
             }
-            
+            <div>
+                <a href={"../privacypolicy"}>Privacy Policy</a>
+            </div>
+
+
         </div>
         )
     }
