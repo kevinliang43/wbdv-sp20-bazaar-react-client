@@ -4,8 +4,6 @@ import {searchListings} from "../services/CraigslistService"
 import {defaultCity} from "../constants"
 import {normalizeCity} from "../utils/StringUtils"
 import ListingCardComponent from "../components/ListingCardComponent";
-import FooterComponent from "../components/footer/FooterComponent";
-
 
 export default class CraigslistSearchComponent extends React.Component {
 
@@ -96,7 +94,6 @@ export default class CraigslistSearchComponent extends React.Component {
                     )}
                 </div>
             }
-            <FooterComponent/>
         </div>
         )
     }

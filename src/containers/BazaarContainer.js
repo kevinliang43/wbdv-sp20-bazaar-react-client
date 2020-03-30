@@ -6,11 +6,14 @@ import RegisterComponent from "../components/register/RegisterComponent";
 import HomeComponent from "../components/home/HomeComponent";
 import PrivacyPolicyComponent from "../components/privacypolicy/PrivacyPolicyComponent";
 import ProfileComponent from "../components/profile/ProfileComponent";
+import "../components/footer/FooterComponent"
+import FooterComponent from "../components/footer/FooterComponent";
 
 export default class BazaarContainer extends React.Component {
 
     render () {
         return (
+            <div>
             <Router>
                 <Route
                     path={`/`}
@@ -52,6 +55,9 @@ export default class BazaarContainer extends React.Component {
                     exact={true}
                     component={ProfileComponent}/>
             </Router>
+
+            <FooterComponent/>
+            </div>
 
         )
 
