@@ -118,7 +118,7 @@ export const registerUser = async (user) => {
     if (checks.type === 'SUCCESS') {
         let cleanedUser = cleanFormData(user);
         try {
-            // createUser(cleanedUser);
+            createUser(cleanedUser);
             console.log("Successful Registration")
             checks['newUsername'] = user.username;
             return checks;
