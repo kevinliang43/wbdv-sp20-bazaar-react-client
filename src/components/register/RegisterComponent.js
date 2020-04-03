@@ -132,7 +132,7 @@ export default class RegisterComponent extends React.Component {
                 <div className="form-group row">
                     <button className="btn btn-block btn-success"
                         onClick={(e) => {
-                            e.preventDefault();
+                            e.preventDefault();//FIXME: Temporary workaround Prevents refreshing of the page (in order to show alert.)
                             this.register();
                         }
                         }
