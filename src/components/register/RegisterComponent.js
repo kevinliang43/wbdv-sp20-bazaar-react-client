@@ -11,7 +11,8 @@ export default class RegisterComponent extends React.Component {
         username: '',
         password: '',
         confirmPassword: '',
-        city: ''
+        city: '',
+        registrationState: {}
     }
 
     updateField(currentKey, newValue) {
@@ -25,6 +26,13 @@ export default class RegisterComponent extends React.Component {
 
     register() {
         userService.registerUser(this.state)
+            .then(newRegistrationState => {
+                this.setState(prevState => (
+                    {...prevState,
+                        'registrationState': newRegistrationState
+                    }))
+                }
+            )
     }
 
     render() {
@@ -36,6 +44,18 @@ export default class RegisterComponent extends React.Component {
                 <hr className="border-color-white row"/>
                 <h1 className="display-5">Register</h1>
                 <br></br>
+
+            {Object.keys(this.state.registrationState).length !== 0 && this.state.registrationState.type === 'SUCCESS' &&
+                <div class="alert alert-success" role="alert">
+                    New User '{this.state.registrationState.newUsername}' has been created.
+                </div>
+            }
+
+            {Object.keys(this.state.registrationState).length !== 0 && this.state.registrationState.type === 'ERROR' &&
+                <div class="alert alert-danger" role="alert">
+                    ERROR: {this.state.registrationState.errorMessage}
+                </div>
+            }
 
             </div>
 
