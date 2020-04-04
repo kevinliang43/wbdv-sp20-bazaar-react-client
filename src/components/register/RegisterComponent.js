@@ -53,7 +53,10 @@ export default class RegisterComponent extends React.Component {
 
             {Object.keys(this.state.registrationState).length !== 0 && this.state.registrationState.type === 'ERROR' &&
                 <div class="alert alert-danger" role="alert">
-                    ERROR: {this.state.registrationState.errorMessage}
+                    <h4>ERROR</h4>
+                    {this.state.registrationState.errorMessages.map(errorMessage =>
+                        <p>{errorMessage}</p>
+                        )}
                 </div>
             }
 

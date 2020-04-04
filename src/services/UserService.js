@@ -62,44 +62,47 @@ export const deleteUser = async (uid) => {
 
 const registrationChecks = async (user) => {
     // Returns a JSON object with a type ('SUCCESS' or 'ERROR')
-    // If type == 'ERROR', will also an error message ('errorMessage')
+    // If type == 'ERROR', will also an error message ('errorMessages')
     let returnJson = {
-        'type' : 'ERROR'
+        'type' : 'ERROR',
+        'errorMessages' : []
     }
     const emailCheck = await findUserByEmail(user.email);
     const usernameCheck = await findUserByUsername(user.username)
 
     // Check to see password and confirm password match
     if (!checkParamsMatch(user.password, user.confirmPassword)) {
-        returnJson['errorMessage'] = 'Passwords do not match.'
+        returnJson['errorMessages'].push('Passwords do not match.')
     }
 
     // Check to see that all fields are completed
-    else if (!checkForEmptyFields(user)) {
-        returnJson['errorMessage'] = 'All fields of the form must be filled out.'
+    if (!checkForEmptyFields(user)) {
+        returnJson['errorMessages'].push('All fields of the form must be filled out.')
     }
 
-    //TODO: Check to see valid email <something@something.com>
-    else if (!checkEmailFormat(user.email)) {
-        returnJson['errorMessage'] = 'Invalid Email.'
+    //Check to see if valid email format
+    if (!checkEmailFormat(user.email)) {
+        returnJson['errorMessages'].push('Invalid email format.')
     }
 
     // Check if email exists already
-    else if (Object.keys(emailCheck).length !== 0) {
-        returnJson['errorMessage'] = 'The Email you have entered is already being used.'
+    if (Object.keys(emailCheck).length !== 0) {
+        returnJson['errorMessages'].push('The email you have entered is already being used.')
     }
 
     // Check if username exists already
-    else if (Object.keys(usernameCheck).length !== 0) {
-        returnJson['errorMessage'] = 'The Username you have entered is already being used.'
+    if (Object.keys(usernameCheck).length !== 0) {
+        returnJson['errorMessages'].push('The username you have entered is already being used.')
     }
 
+    // If no errorMessages have been accumulated return SUCCESS
+    if (returnJson['errorMessages'].length === 0){
+        return {'type' : 'SUCCESS'}
+    }
     else {
-        returnJson['type'] = 'SUCCESS'
+        // Otherwise return ERROR, with all the errorMessages.
+        return returnJson
     }
-
-    return returnJson
-
 }
 
 const cleanFormData = (user) => {
@@ -128,7 +131,7 @@ export const registerUser = async (user) => {
             console.log("Server Side Registration Error")
             return {
                 'type': 'ERROR',
-                'errorMessage': e
+                'errorMessages': e
             }
         }
     }
