@@ -1,5 +1,6 @@
 import cheerio from 'cheerio'
-import {proxyUrl} from '../constants'
+import {proxyUrl, CRAIGSLIST_LOCATIONS_URL} from '../constants'
+import {parseCraigslistSubregionURLPrefix} from '../utils/StringUtils'
 
 export const searchListings =(location, searchQuery, limit) =>
     fetch(proxyUrl + `https://${location}.craigslist.org/search/sss?sort=rel&query=${searchQuery}`)
@@ -15,6 +16,14 @@ export const getListingDetails = (listingUrl) =>
     fetch(proxyUrl + listingUrl)
         .then(response => response.text())
         .then(resultHTML => parseListingDetails(resultHTML))
+
+export const getLocations = () => 
+    fetch(proxyUrl + CRAIGSLIST_LOCATIONS_URL)
+        .then(response => response.text())
+        .then(resultHTML => parseRegions(resultHTML))
+
+
+/* Parsing Helper Functions */
 
 const parseListings = (pageHTML, limit) => {
     // Credit for DOM Parsing to get JSON Elements: https://github.com/brozeph/node-craigslist
@@ -49,8 +58,62 @@ const parseListingDetails = (pageHTML) => {
     }
     return details
 }
-        
 
+const parseRegions = (pageHTML) => {
+    let $ = cheerio.load(pageHTML);
 
-export default {searchListings}
+    // Get the list of continents 
+    let continents = [];
+    $('article.page-container')
+        .find('h1')
+        .each((idx, row) => {
+            let continent = {
+                name: $(row).text(),
+                countryCode: ($(row).find('a').attr('name'))
+            }
+            continents = [...continents, continent]
+        })
 
+    // Initialize our Final Mapping from continents-> region -> {subregionName : subregionURLPrefix}
+    let finalRegionMapping = {}
+
+    // Finish mapping of continents -> region -> subregion
+    $('section.body')
+        .find('.colmask')
+        .each((idx, row) => {
+            // Current continent
+            let currentContinent = continents[idx]
+            // Find the regions and initialize regions : subregions mapping
+            let regions = []
+            let regionsToSubregionsMapping = {}
+            $(row).find('h4').map((index, element) => {
+                regions.push($(element).text()); // Add to our list of regions (in order)
+            })
+
+            // Find the subregions for each region
+            let subregions = $(row).find('ul').each((index, element) => {
+                let region = regions[index]; // Current region
+
+                // Map each subregion name to its corresponding URL prefix
+                let subregionsMapping = {};
+                $(element).find('li').each((liIdx, liElement) => {
+                    let subregionName = $(liElement).text(); // Get name of subregion
+                    let subregionURLPrefix = parseCraigslistSubregionURLPrefix($(liElement).find('a').attr('href')); // Get URL prefix of subregion
+                    subregionsMapping[subregionName] = subregionURLPrefix; // Map subregion name to its URL prefix
+                })
+
+                // Map Each region to its subregions mapping
+                regionsToSubregionsMapping[region] = subregionsMapping;
+            })
+
+            // Append entry to our final mapping
+            finalRegionMapping[currentContinent['countryCode']] = {
+                continentName: currentContinent['name'],
+                'regions' : regionsToSubregionsMapping
+            }
+        })
+    
+    return finalRegionMapping;
+}        
+
+export default {searchListings, getRecentListings, getListingDetails, getLocations}
