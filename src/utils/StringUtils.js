@@ -8,4 +8,15 @@ export const parseDate = (isoDateString) => {
     return dateObj.toLocaleDateString(undefined, options)
 }
 
+export const parseCraigslistSubregionURLPrefix = (craigslistURL) => {
+    // Extract the URLSubregionPrefix from Craigslist URLs that come in the form of : 
+    // http://<subregion>.craigslist.org/ or https://<subregion>.craigslist.org/
+
+    // Replace http/https URL prefix
+    let urlNoHTTPPrefix = craigslistURL.replace('https://', '').replace('http://', '');
+    // Split on '.', and take the first element
+    let finalURLPrefix = urlNoHTTPPrefix.split('.')[0];
+    return finalURLPrefix;
+}
+
 export default {normalizeCity}
