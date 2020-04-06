@@ -1,6 +1,7 @@
 import React from "react";
 import "./RegisterComponent.css"
 import userService from "../../services/UserService"
+import { capitalizeAllFirstLetter } from "../../utils/StringUtils"
 import { connect } from "react-redux";
 
 class RegisterComponent extends React.Component {
@@ -229,7 +230,7 @@ class RegisterComponent extends React.Component {
                             }}
                         >
                             {this.state.subregionList && this.state.subregionList.map(subregionKey => 
-                                <option key={subregionKey[0]} value={subregionKey[1]}>{subregionKey[0]}</option>
+                                <option key={subregionKey[0]} value={subregionKey[1]}>{capitalizeAllFirstLetter(subregionKey[0])}</option>
                             )}
                         </select>                    
                     </div>
