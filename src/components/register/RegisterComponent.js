@@ -1,8 +1,9 @@
 import React from "react";
 import "./RegisterComponent.css"
 import userService from "../../services/UserService"
+import { connect } from "react-redux";
 
-export default class RegisterComponent extends React.Component {
+class RegisterComponent extends React.Component {
 
     state = {
         firstName : '',
@@ -11,8 +12,41 @@ export default class RegisterComponent extends React.Component {
         username: '',
         password: '',
         confirmPassword: '',
-        city: '',
-        registrationState: {}
+        registrationState: {},
+
+        continentList: [],
+        regionList: [],
+        subregionList: [],
+        selectedContinent: '',
+        selectedRegion: '',
+        selectedSubregion: '',
+    }
+
+    componentDidMount() {
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.locations !== this.props.locations) {
+
+            let continentList = this.getContinents();
+            let selectedContinent = continentList[0];
+            let regionList = this.getRegionsForContinent(selectedContinent);
+            let selectedRegion = regionList[0];
+            let subregionList = this.getSubregionsForRegion(selectedContinent, selectedRegion);
+            let selectedSubregion = subregionList[0][1];
+
+            this.setState(prevState => (
+                {
+                    ...prevState,
+                    'continentList': continentList,
+                    'selectedContinent': selectedContinent,
+                    'regionList': regionList,
+                    'selectedRegion': selectedRegion,
+                    'subregionList': subregionList,
+                    'selectedSubregion': selectedSubregion
+                }
+            ))
+        }
     }
 
     updateField(currentKey, newValue) {
@@ -25,7 +59,16 @@ export default class RegisterComponent extends React.Component {
     }
 
     register() {
-        userService.registerUser(this.state)
+        userService.registerUser({
+            firstName : this.state.firstName,
+            lastName : this.state.lastName,
+            email: this.state.email,
+            username: this.state.username,
+            password: this.state.password,
+            confirmPassword: this.state.confirmPassword,
+            city: this.state.selectedSubregion
+
+        })
             .then(newRegistrationState => {
                 this.setState(prevState => (
                     {...prevState,
@@ -33,6 +76,18 @@ export default class RegisterComponent extends React.Component {
                     }))
                 }
             )
+    }
+
+    getContinents = () => {
+        return Object.keys(this.props.locations);
+    }
+
+    getRegionsForContinent = (continent) => {
+        return Object.keys(this.props.locations[continent]['regions']);
+    }
+
+    getSubregionsForRegion = (continent, region) => {
+        return Object.entries(this.props.locations[continent]['regions'][region])
     }
 
     render() {
@@ -119,15 +174,67 @@ export default class RegisterComponent extends React.Component {
                         }/>
                 </div>
 
-                <div class="form-group">
-                    <label for="inputCity" class="col-form-label text-white float-left">
-                        City
-                    </label>
-                    <input type="text" class="form-control" id="inputCity" placeholder="City"
-                        onChange={(e) => this.updateField("city", e.target.value)
-                        }/>
-                </div>
+                <div class="form-group row">
+                    <div class="form-group col-md-4">
+                        <label for="inputContinent" class="col-form-label text-white float-left">Continent</label>
+                        <select id="inputContinent" class="form-control"
+                            onChange={(e) => {
+                                let selectedContinent = e.target.value;
+                                let regionList = this.getRegionsForContinent(selectedContinent);
+                                let selectedRegion = regionList[0];
+                                let subregionList = this.getSubregionsForRegion(selectedContinent, selectedRegion);
+                                let selectedSubregion = subregionList[0][1];
+                    
+                                this.setState(prevState => (
+                                    {
+                                        ...prevState,
+                                        'selectedContinent': selectedContinent,
+                                        'regionList': regionList,
+                                        'selectedRegion': selectedRegion,
+                                        'subregionList': subregionList,
+                                        'selectedSubregion': selectedSubregion
+                                    }))}}>
+                            {this.state.continentList && this.state.continentList.map(continentKey => 
+                                <option key={continentKey} value={continentKey}>{this.props.locations[continentKey]['continentName']}</option>
+                            )}
+                        </select>
+                    </div>
 
+                    <div class="form-group col-md-4">
+                        <label for="inputRegion" class="col-form-label text-white float-left">Region</label>
+                        <select id="inputRegion" class="form-control" 
+                            onChange={(e) => {
+                                let selectedRegion = e.target.value;
+                                let subregionList = this.getSubregionsForRegion(this.state.selectedContinent, selectedRegion);
+                                let selectedSubregion = subregionList[0][1];
+                    
+                                this.setState(prevState => (
+                                    {
+                                        ...prevState,
+                                        'selectedRegion': selectedRegion,
+                                        'subregionList': subregionList,
+                                        'selectedSubregion': selectedSubregion
+                                    }))}}>
+                            {this.state.regionList && this.state.regionList.map(regionKey => 
+                                <option key={regionKey} value={regionKey}>{regionKey}</option>
+                            )}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="inputSubregion" class="col-form-label text-white float-left">Subregion</label>
+                        <select id="inputSubregion" class="form-control" 
+                            onChange={(e) => {
+                                this.updateField("selectedSubregion", e.target.value)
+                            }}
+                        >
+                            {this.state.subregionList && this.state.subregionList.map(subregionKey => 
+                                <option key={subregionKey[0]} value={subregionKey[1]}>{subregionKey[0]}</option>
+                            )}
+                        </select>                    
+                    </div>
+
+                </div>
                 
 
                 <br/>
@@ -152,3 +259,5 @@ export default class RegisterComponent extends React.Component {
         )
     }
 }
+
+export default connect()(RegisterComponent)
