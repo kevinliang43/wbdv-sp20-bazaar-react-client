@@ -9,7 +9,15 @@ import ProfileComponent from "../components/profile/ProfileComponent";
 import "../components/footer/FooterComponent"
 import FooterComponent from "../components/footer/FooterComponent";
 
-export default class BazaarContainer extends React.Component {
+import {connect} from "react-redux";
+import craigslistService from "../services/CraigslistService"
+import {findLocationsAction} from "../actions/locationActions"
+
+class BazaarContainer extends React.Component {
+
+    componentDidMount() {
+        this.props.findLocations()
+    }
 
     render () {
         return (
@@ -43,7 +51,11 @@ export default class BazaarContainer extends React.Component {
                 <Route
                     path={`/register`}
                     exact={true}
-                    component={RegisterComponent}/>
+                    render={(props) => 
+                        <RegisterComponent
+                        locations={this.props.locations}/>}
+                    //component={RegisterComponent}/>
+                />
 
                 <Route
                     path={`/privacypolicy`}
@@ -58,9 +70,27 @@ export default class BazaarContainer extends React.Component {
 
             <FooterComponent/>
             </div>
-
         )
 
     }
-
 }
+
+const stateToPropertyMapper = (state) => {
+    return {
+        locations: state.locations.locations
+    }
+}
+
+const dispatchToPropertyMapper = (dispatch) => {
+    return {
+        findLocations: () =>
+            craigslistService.getLocations()
+                .then(locations => 
+                    dispatch(findLocationsAction(locations)))
+    }
+}
+
+export default connect(
+    stateToPropertyMapper,
+    dispatchToPropertyMapper)
+(BazaarContainer)
