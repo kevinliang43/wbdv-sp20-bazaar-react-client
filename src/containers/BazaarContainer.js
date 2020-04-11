@@ -16,7 +16,7 @@ import {findLocationsAction} from "../actions/locationActions"
 class BazaarContainer extends React.Component {
 
     componentDidMount() {
-        //this.props.findLocations()
+        this.props.findLocations();
     }
 
     render () {
@@ -83,10 +83,10 @@ const stateToPropertyMapper = (state) => {
 
 const dispatchToPropertyMapper = (dispatch) => {
     return {
-        findLocations: () =>
-            craigslistService.getLocations()
-                .then(locations => 
-                    dispatch(findLocationsAction(locations)))
+        findLocations: () => {
+            let locations = craigslistService.getLocations()
+            dispatch(findLocationsAction(locations))
+        }
     }
 }
 
