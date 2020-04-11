@@ -1,7 +1,17 @@
 import React from "react";
 import "./LoginComponent.css"
+import {login} from "../../services/UserService"
 
 export default class LoginComponent extends React.Component {
+
+    state = {
+        username: '',
+        password: ''
+    }
+
+    login = (user) =>
+        login(user)
+            .then(currentUser => this.props.history.push('/profile'))
 
 
     render () {
@@ -22,20 +32,28 @@ export default class LoginComponent extends React.Component {
                             <label for="username" class="col-form-label text-white">
                                 Username 
                             </label>
-                            <input class="form-control" placeholder="Username"/>
+                            <input class="form-control" placeholder="Username" value={this.state.username}
+                                onChange={(e) => this.setState({
+                                    username: e.target.value
+                                })}/>
                         </div>
 
                         <div className="form-group row">
                             <label for="password" class="col-form-label text-white">
                                 Password
                             </label>
-                            <input type="password" class="form-control" placeholder="Password"/>
+                            <input type="password" class="form-control" placeholder="Password" value={this.state.password}
+                                onChange={(e) => this.setState({
+                                    password: e.target.value
+                                })}
+                            />
                         </div>
 
                         <br/>
 
                         <div className="form-group row">
-                            <button className="btn btn-block btn-success">Login</button>
+                            <button className="btn btn-block btn-success"
+                                onClick={() => this.login(this.state)}>Login</button>
                             <a className="btn btn-block btn-success" href="/register">Register</a>
                             <a className="btn btn-block btn-danger" href="/">Cancel</a>
                         </div>
