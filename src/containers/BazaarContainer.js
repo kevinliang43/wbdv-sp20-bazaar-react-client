@@ -16,7 +16,7 @@ import {findLocationsAction} from "../actions/locationActions"
 class BazaarContainer extends React.Component {
 
     componentDidMount() {
-        this.props.findLocations()
+        //this.props.findLocations()
     }
 
     render () {
