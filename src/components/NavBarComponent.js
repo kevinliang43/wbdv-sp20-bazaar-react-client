@@ -1,6 +1,7 @@
 import React from "react"
 import {normalizeCity} from "../utils/StringUtils"
 import {Link} from "react-router-dom"
+import {profile, logout} from "../services/UserService"
 
 export default class NavBarComponent extends React.Component {
 
@@ -37,8 +38,16 @@ export default class NavBarComponent extends React.Component {
                                onChange={e => this.setState({searchCity: e.target.value})}/>
                         <a class="btn btn-outline-success my-2 mr-2 my-sm-0"
                            href={`/search/${normalizeCity(this.state.searchCity)}/${this.state.searchQuery}`}>Search</a>
+
+                        {Object.keys(this.props.profile).length == 0 &&
                         <a class="btn btn-outline-success my-2 my-sm-0"
                             href={`/login`}>Log In</a>
+                        }
+                        {Object.keys(this.props.profile).length > 0 &&
+                        <a class="btn btn-outline-danger my-2 my-sm-0 text-danger"
+                            onClick={() => this.props.logout()}
+                            href={`/`}>Log Out</a>
+                        }
                     </form>
                 </div>
             </nav>
