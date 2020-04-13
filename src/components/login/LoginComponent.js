@@ -15,6 +15,7 @@ export default class LoginComponent extends React.Component {
             username: this.state.username,
             password: this.state.password
         })
+            .then(this.props.retrieveSession())
             .then(result => this.props.history.push('/profile'))
             .catch(e => this.setState({loginError: true}))
 
