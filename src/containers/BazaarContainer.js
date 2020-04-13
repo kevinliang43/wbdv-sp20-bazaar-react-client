@@ -22,7 +22,7 @@ class BazaarContainer extends React.Component {
 
     componentDidMount() {
         this.props.findLocations();
-        this.retrieveSession().then(e => console.log(this.state.profile));
+        this.retrieveSession();
     }
 
     logout = () =>

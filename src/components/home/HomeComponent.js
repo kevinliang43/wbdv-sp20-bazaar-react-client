@@ -4,7 +4,6 @@ import NavBarComponent from "../NavBarComponent"
 import {defaultCity} from "../../constants"
 import {getRecentListings} from "../../services/CraigslistService"
 import {normalizeCity} from "../../utils/StringUtils"
-import ListingCardComponent from "../ListingCardComponent";
 import ListingRowComponent from "../ListingRowComponent";
 import HeadLineComponent from "./headline/HeadLineComponent"
 
