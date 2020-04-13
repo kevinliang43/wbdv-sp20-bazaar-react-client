@@ -6,12 +6,17 @@ export default class LoginComponent extends React.Component {
 
     state = {
         username: '',
-        password: ''
+        password: '',
+        loginError: false
     }
 
-    login = (user) =>
-        login(user)
-            .then(currentUser => this.props.history.push('/profile'))
+    login = () =>
+        login({
+            username: this.state.username,
+            password: this.state.password
+        })
+            .then(result => this.props.history.push('/profile'))
+            .catch(e => this.setState({loginError: true}))
 
 
     render () {
@@ -25,6 +30,12 @@ export default class LoginComponent extends React.Component {
                         <h1 className="display-5">Log In</h1>
 
                     </div>
+
+                    {this.state.loginError &&
+                        <div class="alert alert-danger" role="alert">
+                            Username and Password combination not found
+                        </div>
+                    }
 
 
                     <form>
@@ -53,7 +64,10 @@ export default class LoginComponent extends React.Component {
 
                         <div className="form-group row">
                             <button className="btn btn-block btn-success"
-                                onClick={() => this.login(this.state)}>Login</button>
+                                onClick={(e) => {
+                                    e.preventDefault();//FIXME: Temporary workaround Prevents refreshing of the page (in order to show alert.)
+                                    this.login();
+                                }}>Login</button>
                             <a className="btn btn-block btn-success" href="/register">Register</a>
                             <a className="btn btn-block btn-danger" href="/">Cancel</a>
                         </div>
