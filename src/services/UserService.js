@@ -70,6 +70,18 @@ export const login = (user) =>
         credentials: "include"
     }).then(response => response.json())
 
+export const logout = () =>
+    fetch(`${API_BASE_URL}/logout`, {
+        method: 'POST',
+        credentials: "include"
+    })
+
+export const profile = () =>
+    fetch(`${API_BASE_URL}/profile`, {
+        method: 'POST',
+        credentials: "include"
+    }).then(reseponse => reseponse.json())
+
 // Registration Services
 
 const registrationChecks = async (user) => {
