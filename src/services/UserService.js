@@ -1,4 +1,4 @@
-import {API_USER_URL} from "../constants";
+import {API_USER_URL, API_BASE_URL} from "../constants";
 import {checkParamsMatch, checkForEmptyFields, checkEmailFormat} from "../utils/FormUtils"
 import {normalizeCity} from "../utils/StringUtils"
 
@@ -10,7 +10,8 @@ export const createUser = (user) =>
         body: JSON.stringify(user),
         headers: {
             'content-type': 'application/json'
-        }
+        },
+        credentials: "include"
     })
         .then(response => response.json())
 
@@ -57,6 +58,29 @@ export const deleteUser = async (uid) => {
     })
     return await response.json()
 }
+
+// Session Services
+export const login = (user) =>
+    fetch(`${API_BASE_URL}/login`, {
+        method: 'POST',
+        body: JSON.stringify(user),
+        headers: {
+            'content-type': 'application/json'
+        },
+        credentials: "include"
+    }).then(response => response.json())
+
+export const logout = () =>
+    fetch(`${API_BASE_URL}/logout`, {
+        method: 'POST',
+        credentials: "include"
+    })
+
+export const profile = () =>
+    fetch(`${API_BASE_URL}/profile`, {
+        method: 'POST',
+        credentials: "include"
+    }).then(reseponse => reseponse.json())
 
 // Registration Services
 

@@ -4,7 +4,6 @@ import NavBarComponent from "../NavBarComponent"
 import {defaultCity} from "../../constants"
 import {getRecentListings} from "../../services/CraigslistService"
 import {normalizeCity} from "../../utils/StringUtils"
-import ListingCardComponent from "../ListingCardComponent";
 import ListingRowComponent from "../ListingRowComponent";
 import HeadLineComponent from "./headline/HeadLineComponent"
 
@@ -38,7 +37,10 @@ export default class HomeComponent extends React.Component {
     render() {
         return (
             <div className={`container-fluid`}>
-                <NavBarComponent/>
+                <NavBarComponent
+                    profile = {this.props.profile}
+                    logout = {this.props.logout}
+                />
                 
                 <h1 className="display-2 text-center mt-4">Bazaar</h1>
 

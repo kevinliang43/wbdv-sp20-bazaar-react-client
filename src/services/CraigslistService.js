@@ -17,10 +17,11 @@ export const getListingDetails = (listingUrl) =>
         .then(response => response.text())
         .then(resultHTML => parseListingDetails(resultHTML))
 
-export const getLocations = () => 
-    fetch(proxyUrl + CRAIGSLIST_LOCATIONS_URL)
-        .then(response => response.text())
-        .then(resultHTML => parseRegions(resultHTML))
+
+export const getLocations = () => {
+    let locations = require('./serviceResources/locationResource.json');
+    return locations;
+}
 
 
 /* Parsing Helper Functions */

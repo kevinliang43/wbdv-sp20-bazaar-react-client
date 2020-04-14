@@ -10,7 +10,10 @@ export default class CraigslistComponent extends React.Component {
         return (
             <div className={`container-fluid`}>
                 <Router>
-                    <NavBarComponent/>
+                    <NavBarComponent
+                        profile = {this.props.profile}
+                        logout = {this.props.logout}
+                    />
 
                     <Route
                         path={`/search`}

@@ -32,7 +32,10 @@ export default class ProfileComponent extends React.Component {
     render() {
         return (
             <div className="container-fluid">
-                <NavBarComponent/>
+                <NavBarComponent
+                    profile = {this.props.profile}
+                    logout = {this.props.logout}
+                />
                 <h1>Profile</h1>
                 <div className="row">
                     <div className="col-4 border border-success">

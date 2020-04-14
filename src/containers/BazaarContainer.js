@@ -12,12 +12,33 @@ import FooterComponent from "../components/footer/FooterComponent";
 import {connect} from "react-redux";
 import craigslistService from "../services/CraigslistService"
 import {findLocationsAction} from "../actions/locationActions"
+import {logout, profile} from "../services/UserService"
 
 class BazaarContainer extends React.Component {
 
-    componentDidMount() {
-        this.props.findLocations()
+    state = {
+        profile: {}
     }
+
+    componentDidMount() {
+        this.props.findLocations();
+        this.retrieveSession();
+    }
+
+    logout = () =>
+        logout()
+            .then(e => this.setState({
+                profile: {}
+            }))
+
+    retrieveSession = () =>
+        profile()
+            .then(profile => this.setState({
+                profile: profile
+            }))
+            .catch(e => this.setState({
+                profile: {}
+            }))
 
     render () {
         return (
@@ -26,35 +47,55 @@ class BazaarContainer extends React.Component {
                 <Route
                     path={`/`}
                     exact={true}
-                    component={HomeComponent}/>
+                    render={(props) =>
+                        <HomeComponent
+                        {...props}
+                        logout={this.logout}
+                        profile={this.state.profile}/>}/>
 
                 <Route
                     path={`/search`}
                     exact={true}
-                    component={CraigslistComponent}/>
+                    render={(props) =>
+                        <CraigslistComponent
+                        {...props}
+                        logout={this.logout}
+                        profile={this.state.profile}/>}/>
 
                 <Route
                     path={`/search/:city/:searchPost`}
                     exact={true}
-                    component={CraigslistComponent}/>
+                    render={(props) =>
+                        <CraigslistComponent
+                        {...props}
+                        logout={this.logout}
+                        profile={this.state.profile}/>}/>
 
                 <Route
                     path={`/posts/:city/:listingID`}
                     exact={true}
-                    component={CraigslistComponent}/>
+                    render={(props) =>
+                        <CraigslistComponent
+                        {...props}
+                        logout={this.logout}
+                        profile={this.state.profile}/>}/>
 
                 <Route
                     path={`/login`}
                     exact={true}
-                    component={LoginComponent}/>
+                    render={(props) =>
+                        <LoginComponent
+                        {...props}
+                        retrieveSession={this.retrieveSession}
+                        profile={this.state.profile}/>}/>
+
 
                 <Route
                     path={`/register`}
                     exact={true}
-                    render={(props) => 
+                    render={(props) =>
                         <RegisterComponent
                         locations={this.props.locations}/>}
-                    //component={RegisterComponent}/>
                 />
 
                 <Route
@@ -65,7 +106,11 @@ class BazaarContainer extends React.Component {
                 <Route
                     path={`/profile`}
                     exact={true}
-                    component={ProfileComponent}/>
+                    render={(props) =>
+                        <ProfileComponent
+                        {...props}
+                        logout={this.logout}
+                        profile={this.state.profile}/>}/>
             </Router>
 
             <FooterComponent/>
@@ -83,10 +128,10 @@ const stateToPropertyMapper = (state) => {
 
 const dispatchToPropertyMapper = (dispatch) => {
     return {
-        findLocations: () =>
-            craigslistService.getLocations()
-                .then(locations => 
-                    dispatch(findLocationsAction(locations)))
+        findLocations: () => {
+            let locations = craigslistService.getLocations()
+            dispatch(findLocationsAction(locations))
+        }
     }
 }
 
