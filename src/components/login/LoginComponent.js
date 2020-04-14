@@ -15,9 +15,9 @@ export default class LoginComponent extends React.Component {
             username: this.state.username,
             password: this.state.password
         })
-            .then(this.props.retrieveSession())
-            .then(result => this.props.history.push('/profile'))
-            .catch(e => this.setState({loginError: true}))
+            .then(response => this.props.retrieveSession()) // Update Container with new session info (regardless of success/fail login)
+            .then(result => this.props.history.push('/profile')) // Successful login, redirect to profile page
+            .catch(e => this.setState({loginError: true})) // Unsuccessful login, show alert.
 
 
     render () {
