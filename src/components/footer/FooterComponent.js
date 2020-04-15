@@ -3,7 +3,7 @@ import './FooterComponent.css'
 
 const FooterComponent = () =>
     <div>
-        <a className={"privacy"} href={"../privacypolicy"}>Privacy Policy</a>
+        <a className={"privacy"} href={"/privacypolicy"}>Privacy Policy</a>
     </div>
 
 export default FooterComponent
