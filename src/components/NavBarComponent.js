@@ -29,6 +29,14 @@ export default class NavBarComponent extends React.Component {
                         <li class="nav-item">
                             <a class="nav-link" href="/profile">Profile</a>
                         </li>
+                        {Object.keys(this.props.profile).length == 0 &&
+                            <li class="nav-item">
+                            <a class="nav-link" href="/register">Register</a>
+                            </li>}
+                        {Object.keys(this.props.profile).length > 0 &&
+                            <li class="nav-item">
+                            <a class="nav-link" href="/createlisting">Create Listing</a>
+                            </li>}
                     </ul>
 
                     <form class="form-inline">
