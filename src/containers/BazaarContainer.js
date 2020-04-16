@@ -110,7 +110,9 @@ class BazaarContainer extends React.Component {
                         <ProfileComponent
                         {...props}
                         logout={this.logout}
-                        profile={this.state.profile}/>}/>
+                        profile={this.state.profile}
+                        retrieveSession={this.retrieveSession}
+                        />}/>
             </Router>
 
             <FooterComponent/>

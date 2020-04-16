@@ -46,6 +46,7 @@ export const updateUser = (uid, user) =>
     fetch(`${API_USER_URL}/${uid}`, {
         method: 'PUT',
         body: JSON.stringify(user),
+        credentials: "include",
         headers: {
             'content-type': 'application/json'
         }

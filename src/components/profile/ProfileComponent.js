@@ -26,8 +26,15 @@ export default class ProfileComponent extends React.Component {
     save = () => {
         console.log("this is the state.profile object", this.state.profile);
         console.log("this is the props.profile object, any diff?", this.props.profile);
-        userService.updateUser(this.state.profile.id, this.state.profile)
-            .then(() => {this.setState({editing: false})});
+        userService.updateUser(this.state.profile.id, this.state.profile) //Keep in mind, this may fail
+            .then(() => {
+                this.props.retrieveSession();
+                this.setState(
+                    {
+                        editing: false,
+                    })
+            })
+            .catch(() => console.log('serverside error, handle this.')); //TODO: fix this.
     }
 
     componentDidMount() {
@@ -37,6 +44,13 @@ export default class ProfileComponent extends React.Component {
                 listings: results
                 }
             ))
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps !== this.props) { //If bazaarContainer retreives updated profile (example: after make update request)
+            //TODO: Clean this up.
+            this.setState({profile: this.props.profile})
+        }
     }
 
 
@@ -225,7 +239,6 @@ export default class ProfileComponent extends React.Component {
                                     id="updateBtn" type="button"
                                     onClick={() => this.setState({
                                         editing: true,
-                                        profile: this.props.profile
                                     })}>
                                 Edit Profile
                             </button>
