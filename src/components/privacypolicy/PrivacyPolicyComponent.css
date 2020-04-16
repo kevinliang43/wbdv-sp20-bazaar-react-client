@@ -1,3 +1,11 @@
 hr {
     border-color : white
 }
+
+a.home {
+    color: lightgray;
+}
+
+a.home:hover {
+    color: grey;
+}
