@@ -13,6 +13,7 @@ import {connect} from "react-redux";
 import craigslistService from "../services/CraigslistService"
 import {findLocationsAction} from "../actions/locationActions"
 import {logout, profile} from "../services/UserService"
+import CreateListingComponent from "../components/createListing/CreateListingComponent";
 
 class BazaarContainer extends React.Component {
 
@@ -109,6 +110,15 @@ class BazaarContainer extends React.Component {
                     render={(props) =>
                         <ProfileComponent
                         {...props}
+                        logout={this.logout}
+                        profile={this.state.profile}/>}/>
+                <Route
+                    path={`/createlisting`}
+                    exact={true}
+                    render={(props) =>
+                        <CreateListingComponent
+                        {...props}
+                        locations={this.props.locations}
                         logout={this.logout}
                         profile={this.state.profile}/>}/>
             </Router>
