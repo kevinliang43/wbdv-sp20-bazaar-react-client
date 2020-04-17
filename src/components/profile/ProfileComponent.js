@@ -46,8 +46,8 @@ export default class ProfileComponent extends React.Component {
             ))
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps !== this.props) { //If bazaarContainer retreives updated profile (example: after make update request)
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.profile !== this.props.profile) { //If bazaarContainer retreives updated profile (example: after make update request)
             //TODO: Clean this up.
             this.setState({profile: this.props.profile})
         }
@@ -92,7 +92,18 @@ export default class ProfileComponent extends React.Component {
                                     </label>
                                     <div className="col-sm-8">
                                         <input className="form-control"
-                                               id="passwordFld" type="password" placeholder="********" readOnly/>
+                                               id="passwordFld"
+                                               type="password"
+                                               onChange={(e) => {
+                                                   const newPassword = e.target.value;
+                                                   this.setState(prevState => ({
+                                                       profile: {
+                                                           ...prevState.profile,
+                                                           password: newPassword
+                                                       }
+                                                   }))
+                                               }}
+                                               value={this.state.profile.password}/>
                                     </div>
                                 </div>
                                 <div className="form-group row bazaar-private">
@@ -102,7 +113,16 @@ export default class ProfileComponent extends React.Component {
                                     <div className="col-sm-8">
                                         <input className="form-control"
                                                id="firstNameFld"
-                                               placeholder="Duo" readOnly/>
+                                               onChange={(e) => {
+                                                   const newFirstName = e.target.value;
+                                                   this.setState(prevState => ({
+                                                       profile: {
+                                                           ...prevState.profile,
+                                                           firstName: newFirstName
+                                                       }
+                                                   }))
+                                               }}
+                                               value={this.state.profile.firstName}/>
                                     </div>
                                 </div>
                                 <div className="form-group row bazaar-private">
@@ -112,7 +132,16 @@ export default class ProfileComponent extends React.Component {
                                     <div className="col-sm-8">
                                         <input className="form-control"
                                                id="lastNameFld"
-                                               placeholder="Hong" readOnly/>
+                                               onChange={(e) => {
+                                                   const newLastName = e.target.value;
+                                                   this.setState(prevState => ({
+                                                       profile: {
+                                                           ...prevState.profile,
+                                                           lastName: newLastName
+                                                       }
+                                                   }))
+                                               }}
+                                               value={this.state.profile.lastName}/>
                                     </div>
                                 </div>
                                 <div className="form-group row bazaar-private">
@@ -120,10 +149,11 @@ export default class ProfileComponent extends React.Component {
                                         Phone
                                     </label>
                                     <div className="col-sm-8">
+                                        {/*TODO: Currently no phone-number field in User model. Readonly for now.*/}
                                         <input className="form-control"
                                                id="phoneFld"
                                                type="tel"
-                                               placeholder="555-123-4567"/>
+                                               placeholder="555-123-4567" readOnly/>
                                     </div>
                                 </div>
                                 <div className="form-group row bazaar-private">
@@ -131,8 +161,20 @@ export default class ProfileComponent extends React.Component {
                                         Email
                                     </label>
                                     <div className="col-sm-8">
+                                        {/*TODO: Email check like in Register page*/}
                                         <input className="form-control"
-                                               id="emailFld" placeholder="johndoe@doe.com" type="email"/>
+                                               id="emailFld"
+                                               type="email"
+                                               onChange={(e) => {
+                                                   const newEmail = e.target.value;
+                                                   this.setState(prevState => ({
+                                                       profile: {
+                                                           ...prevState.profile,
+                                                           email: newEmail
+                                                       }
+                                                   }))
+                                               }}
+                                               value={this.state.profile.email}/>
                                     </div>
                                 </div>
                                 <div className="form-group row bazaar-private">
@@ -140,6 +182,7 @@ export default class ProfileComponent extends React.Component {
                                         Birthday
                                     </label>
                                     <div className="col-sm-8">
+                                        {/*TODO: DOB field is currently not part of Registration. Readonly for now.*/}
                                         <input className="form-control"
                                                id="dobFld" placeholder="03/24/1997" readOnly/>
                                     </div>
@@ -148,71 +191,20 @@ export default class ProfileComponent extends React.Component {
                                     <label className="col-sm col-form-label">
                                         City
                                     </label>
+                                    {/*TODO: City, subregion, region selection like in Register Page*/}
                                     <div className="col-sm-8">
                                         <input className="form-control"
-                                               id="OpCityFld"
-                                               placeholder="Boston"/>
-                                    </div>
-                                </div>
-                                <div className="form-group row bazaar-public">
-                                    <label className="col-sm col-form-label">
-                                        State
-                                    </label>
-                                    <div className="col-sm-8">
-                                        <select id="inputState" className="form-control">
-                                            <option value="AK">Alaska</option>
-                                            <option value="AL">Alabama</option>
-                                            <option value="AR">Arkansas</option>
-                                            <option value="AZ">Arizona</option>
-                                            <option value="CA">California</option>
-                                            <option value="CO">Colorado</option>
-                                            <option value="CT">Connecticut</option>
-                                            <option value="DC">District of Columbia</option>
-                                            <option value="DE">Delaware</option>
-                                            <option value="FL">Florida</option>
-                                            <option value="GA">Georgia</option>
-                                            <option value="HI">Hawaii</option>
-                                            <option value="IA">Iowa</option>
-                                            <option value="ID">Idaho</option>
-                                            <option value="IL">Illinois</option>
-                                            <option value="IN">Indiana</option>
-                                            <option value="KS">Kansas</option>
-                                            <option value="KY">Kentucky</option>
-                                            <option value="LA">Louisiana</option>
-                                            <option selected="selected" value="MA">Massachusetts</option>
-                                            <option value="MD">Maryland</option>
-                                            <option value="ME">Maine</option>
-                                            <option value="MI">Michigan</option>
-                                            <option value="MN">Minnesota</option>
-                                            <option value="MO">Missouri</option>
-                                            <option value="MS">Mississippi</option>
-                                            <option value="MT">Montana</option>
-                                            <option value="NC">North Carolina</option>
-                                            <option value="ND">North Dakota</option>
-                                            <option value="NE">Nebraska</option>
-                                            <option value="NH">New Hampshire</option>
-                                            <option value="NJ">New Jersey</option>
-                                            <option value="NM">New Mexico</option>
-                                            <option value="NV">Nevada</option>
-                                            <option value="NY">New York</option>
-                                            <option value="OH">Ohio</option>
-                                            <option value="OK">Oklahoma</option>
-                                            <option value="OR">Oregon</option>
-                                            <option value="PA">Pennsylvania</option>
-                                            <option value="PR">Puerto Rico</option>
-                                            <option value="RI">Rhode Island</option>
-                                            <option value="SC">South Carolina</option>
-                                            <option value="SD">South Dakota</option>
-                                            <option value="TN">Tennessee</option>
-                                            <option value="TX">Texas</option>
-                                            <option value="UT">Utah</option>
-                                            <option value="VA">Virginia</option>
-                                            <option value="VT">Vermont</option>
-                                            <option value="WA">Washington</option>
-                                            <option value="WI">Wisconsin</option>
-                                            <option value="WV">West Virginia</option>
-                                            <option value="WY">Wyoming</option>
-                                        </select>
+                                               id="cityFld"
+                                               onChange={(e) => {
+                                                   const newCity = e.target.value;
+                                                   this.setState(prevState => ({
+                                                       profile: {
+                                                           ...prevState.profile,
+                                                           city: newCity
+                                                       }
+                                                   }))
+                                               }}
+                                               value={this.state.profile.city}/>
                                     </div>
                                 </div>
                                 <div className="form-group row">
