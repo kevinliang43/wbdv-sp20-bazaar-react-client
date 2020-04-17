@@ -11,6 +11,7 @@ import NavBarComponent from "../NavBarComponent";
 import ListingRowComponent from "../ListingRowComponent";
 import {searchListings} from "../../services/CraigslistService";
 import userService from "../../services/UserService";
+import "./ProfileComponent.css";
 
 
 export default class ProfileComponent extends React.Component {
@@ -61,8 +62,18 @@ export default class ProfileComponent extends React.Component {
                     profile = {this.props.profile}
                     logout = {this.props.logout}
                 />
-                <h1>Profile</h1>
-                <div className="row">
+                {
+                    Object.keys(this.props.profile).length === 0 &&
+                    <div className="row d-flex justify-content-center profile-nosession align-items-center">
+                        <div className="col-sm-4 col-10 text-center">
+                            <h3>Sign up to create a Bazaar profile</h3>
+                            <a className="btn btn-block btn-success" href="/register">Register</a>
+                            <h3>Returning User?</h3>
+                            <a className="btn btn-block btn-success" href="/login">Log In</a>
+                        </div>
+                    </div>
+                }
+                {Object.keys(this.props.profile).length !== 0 && <div className="row">
                     <div className="col-4 border border-success">
                         {
                             this.state.editing &&
@@ -219,7 +230,8 @@ export default class ProfileComponent extends React.Component {
                         }
                         {!this.state.editing &&
                         <div className="col mt-4">
-                            <img className="justify-content-center img-fluid" src={"./defaultProfilePic.jpg"} height="200" width="200"/>
+                            <img className="justify-content-center img-fluid" src={"./defaultProfilePic.jpg"}
+                                 height="200" width="200"/>
                             <h3 className="mt-2">
                                 {this.props.profile.username}
                             </h3>
@@ -252,7 +264,7 @@ export default class ProfileComponent extends React.Component {
                         </div>
                         }
                     </div>
-                </div>
+                </div>}
             </div>
         )
     }
