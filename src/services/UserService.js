@@ -186,13 +186,6 @@ const updateChecks = async (user) => {
         returnJson['errorMessages'].push('Must confirm password correctly to save changes.')
     }
 
-    // TODO: Pending decision on DOB field. The check below is commented out as all user DOB fields are currently null.
-    // Check to see that no fields are empty (Updating user profile is a save-all type of function)
-    /*if (!checkForEmptyFields(user)) {
-        returnJson['errorMessages'].push('All fields of the form must be filled out.')
-        console.log('checkForEmptyFields failed')
-    }*/
-
     // Check to confirm valid email format
     if (!checkEmailFormat(user.email)) {
         returnJson['errorMessages'].push('Invalid email format.')

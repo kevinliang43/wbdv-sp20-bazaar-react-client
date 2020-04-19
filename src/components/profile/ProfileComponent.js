@@ -51,7 +51,6 @@ export default class ProfileComponent extends React.Component {
     deleteAccount = () => {
         userService.deleteUser(this.state.profile.id)
             .then(() => {
-                console.log('then reached');
                 this.props.logout();
                 this.setState({
                     profile: {}
