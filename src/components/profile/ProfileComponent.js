@@ -34,7 +34,8 @@ export default class ProfileComponent extends React.Component {
                 this.setState(prevState => (
                     {
                         ...prevState,
-                        'profileUpdateState': newProfileUpdateState
+                        'profileUpdateState': newProfileUpdateState,
+                        editing: false
                     }));
             });
     };
@@ -75,6 +76,15 @@ export default class ProfileComponent extends React.Component {
             this.setState({profile: {...this.props.profile}})
         }
     }
+
+    urlToRegionMapping = require("../../services/serviceResources/urlToRegionMapping.json");
+    regionToUrlMapping = require("../../services/serviceResources/regionToUrlMapping.json");
+
+    getUrlFromRegionName = (regionName) =>
+        this.regionToUrlMapping[regionName]
+
+    getRegionNameFromUrl = (url) =>
+        this.urlToRegionMapping[url]
 
     render() {
         return (
@@ -119,7 +129,7 @@ export default class ProfileComponent extends React.Component {
                             <form className="pt-2">
                                 <h2>Edit Profile</h2>
                                 <div className="form-group row my-2">
-                                    <label htmlFor="usernameFld" className="col-sm col-form-label">
+                                    <label for="usernameFld" className="col-sm col-form-label">
                                         Username
                                     </label>
                                     <div className="col-sm-8">
@@ -132,7 +142,7 @@ export default class ProfileComponent extends React.Component {
                                     </div>
                                 </div>
                                 <div className="form-group row my-2">
-                                    <label htmlFor="passwordFld" className="col-sm col-form-label">
+                                    <label for="passwordFld" className="col-sm col-form-label">
                                         Password
                                     </label>
                                     <div className="col-sm-8">
@@ -145,7 +155,7 @@ export default class ProfileComponent extends React.Component {
                                     </div>
                                 </div>
                                 <div className="form-group row my-2">
-                                    <label htmlFor="confirmPasswordFld" className="col-sm col-form-label">
+                                    <label for="confirmPasswordFld" className="col-sm col-form-label">
                                         Confirm Password
                                     </label>
                                     <div className="col-sm-8">
@@ -159,7 +169,7 @@ export default class ProfileComponent extends React.Component {
                                     </div>
                                 </div>
                                 <div className="form-group row my-2">
-                                    <label htmlFor="firstNameFld" className="col-sm col-form-label">
+                                    <label for="firstNameFld" className="col-sm col-form-label">
                                         First Name
                                     </label>
                                     <div className="col-sm-8">
@@ -171,7 +181,7 @@ export default class ProfileComponent extends React.Component {
                                     </div>
                                 </div>
                                 <div className="form-group row my-2">
-                                    <label htmlFor="lastNameFld" className="col-sm col-form-label">
+                                    <label for="lastNameFld" className="col-sm col-form-label">
                                         Last Name
                                     </label>
                                     <div className="col-sm-8">
@@ -183,7 +193,7 @@ export default class ProfileComponent extends React.Component {
                                     </div>
                                 </div>
                                 <div className="form-group row my-2">
-                                    <label htmlFor="phoneFld" className="col-sm col-form-label">
+                                    <label for="phoneFld" className="col-sm col-form-label">
                                         Phone
                                     </label>
                                     <div className="col-sm-8">
@@ -195,7 +205,7 @@ export default class ProfileComponent extends React.Component {
                                     </div>
                                 </div>
                                 <div className="form-group row my-2">
-                                    <label htmlFor="emailFld" className="col-sm col-form-label">
+                                    <label for="emailFld" className="col-sm col-form-label">
                                         Email
                                     </label>
                                     <div className="col-sm-8">
@@ -208,7 +218,7 @@ export default class ProfileComponent extends React.Component {
                                     </div>
                                 </div>
                                 <div className="form-group row my-2">
-                                    <label htmlFor="dobFld" className="col-sm col-form-label">
+                                    <label for="imageUrlFld" className="col-sm col-form-label">
                                         Profile Picture
                                     </label>
                                     <div className="col-sm-8">
@@ -220,19 +230,22 @@ export default class ProfileComponent extends React.Component {
                                                placeholder="Enter a URL to add profile picture"/>
                                     </div>
                                 </div>
-                                <div className="form-group row my-2">
-                                    <label className="col-sm col-form-label">
-                                        City
-                                    </label>
-                                    {/*TODO: City, subregion, region selection like in Register Page*/}
+
+                                <div class="form-group row my-2">
+                                    <label for="cityFld" className="col-sm col-form-label">City</label>
                                     <div className="col-sm-8">
-                                        <input className="form-control"
-                                               id="cityFld"
-                                               onChange={(e) =>
-                                                   this.updateStateProfile('city', e.target.value)}
-                                               value={this.state.profile.city}/>
+                                        <select class="form-control" id="cityFld"
+                                            onChange={(e) => {this.updateStateProfile('city', e.target.value)
+                                        console.log(e.target.value)}}
+                                            value={this.state.profile.city}>
+                                                {Object.keys(this.regionToUrlMapping).map(regionName =>
+                                                    <option key={regionName} value={this.regionToUrlMapping[regionName]}>{capitalizeAllFirstLetter(regionName)}</option>
+                                                )}
+                                        </select>
+
                                     </div>
                                 </div>
+
                                 <div className="form-group row my-2">
                                     <div className="col-sm">
                                         <button className="btn btn-block btn-success"
@@ -272,7 +285,7 @@ export default class ProfileComponent extends React.Component {
                                 </h3>
                                 <span>
                                 <b>Operating Location: </b>
-                                    {capitalizeAllFirstLetter(this.props.profile.city)}
+                                    {capitalizeAllFirstLetter(this.getRegionNameFromUrl(this.props.profile.city))}
                                 </span>
                                 <button className="btn btn-block btn-success my-3"
                                         id="editBtn" type="button"
@@ -306,6 +319,7 @@ export default class ProfileComponent extends React.Component {
                                     <div className="list-group mt-2">
                                         {this.state.listings.map((listing, idx) =>
                                             <ListingRowComponent
+                                                key={idx}
                                                 idx={idx}
                                                 listing={listing}
                                                 city={this.state.city}/>
