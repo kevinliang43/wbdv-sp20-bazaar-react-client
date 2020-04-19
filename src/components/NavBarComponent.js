@@ -27,7 +27,12 @@ export default class NavBarComponent extends React.Component {
                             <a class="nav-link" href="/search">Search</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/profile">Profile</a>
+                            <a class="nav-link" href="/profile">
+                                {
+                                    Object.keys(this.props.profile).length !== 0 && this.props.profile.firstName + "\'s "
+                                }
+                                Profile
+                            </a>
                         </li>
                         {Object.keys(this.props.profile).length == 0 &&
                             <li class="nav-item">
