@@ -235,8 +235,8 @@ export default class ProfileComponent extends React.Component {
                                     <label for="cityFld" className="col-sm col-form-label">City</label>
                                     <div className="col-sm-8">
                                         <select class="form-control" id="cityFld"
-                                            onChange={(e) => {this.updateStateProfile('city', e.target.value)
-                                        console.log(e.target.value)}}
+                                            onChange={(e) => this.updateStateProfile('city', e.target.value)
+                                        }
                                             value={this.state.profile.city}>
                                                 {Object.keys(this.regionToUrlMapping).map(regionName =>
                                                     <option key={regionName} value={this.regionToUrlMapping[regionName]}>{capitalizeAllFirstLetter(regionName)}</option>
