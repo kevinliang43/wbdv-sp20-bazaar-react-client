@@ -13,11 +13,8 @@ import {connect} from "react-redux";
 import craigslistService from "../services/CraigslistService"
 import {findLocationsAction} from "../actions/locationActions"
 import {logout, profile} from "../services/UserService"
-<<<<<<< HEAD
 import CreateListingComponent from "../components/createListing/CreateListingComponent";
-=======
 import PublicProfileComponent from "../components/profile/PublicProfileComponent";
->>>>>>> 10aceabd00e3a5ede3efef8950514d68514c682a
 
 class BazaarContainer extends React.Component {
 
