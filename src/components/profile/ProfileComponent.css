@@ -6,7 +6,8 @@
     border:none;
 }
 
-img {
+#profile-pic {
     max-height: 200px;
     max-width: 200px;
+    width:100%
 }

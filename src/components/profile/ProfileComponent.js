@@ -265,7 +265,7 @@ export default class ProfileComponent extends React.Component {
                         {
                             !this.state.editing &&
                             <div className="col pt-4">
-                                <img className="justify-content-center img-fluid"
+                                <img className="justify-content-center img-fluid" id="profile-pic"
                                      src={this.state.profile.imageUrl ? this.state.profile.imageUrl : defaultProPic}/>
                                 <h3 className="mt-2">
                                     {this.props.profile.username}

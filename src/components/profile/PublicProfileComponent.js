@@ -26,7 +26,7 @@ class PublicProfileComponent extends React.Component {
                 <div className="row">
                     <div className="col-4 border border-success">
                         <div className="col pt-4">
-                            <img className="justify-content-center img-fluid"
+                            <img className="justify-content-center img-fluid" id="profile-pic"
                                  src={this.state.user.imageUrl ? this.state.user.imageUrl : defaultProPic}
                                  height="200" width="200"/>
                             <h3 className="mt-2">{this.state.user.username}</h3>
