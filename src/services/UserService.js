@@ -59,7 +59,8 @@ export const updateUser = (uid, user) =>
 
 export const deleteUser = (uid) =>
     fetch(`${API_USER_URL}/${uid}`, {
-        method: "DELETE"
+        method: "DELETE",
+        credentials: "include",
     })
         .then(response => response.json());
 
