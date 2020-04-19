@@ -22,7 +22,21 @@ class PublicProfileComponent extends React.Component {
     render() {
         return (
             <div className="container-fluid">
-                <NavBarComponent profile={this.props.profile} logout={this.props.logout}/>
+            <NavBarComponent profile={this.props.profile} logout={this.props.logout}/>
+
+            {Object.keys(this.state.user).length === 0 &&
+            <div class="row d-flex justify-content-center">
+                <div className="col-sm-6 col-10 text-center">
+
+                <h1 className="display-2">User Not Found</h1>
+                <br></br>
+                <a className="btn btn-block btn-success" href="/">Return Home</a>
+                </div>
+            </div>
+            }
+
+
+            {Object.keys(this.state.user).length > 0 &&
                 <div className="row">
                     <div className="col-4 border border-success">
                         <div className="col pt-4">
@@ -51,6 +65,7 @@ class PublicProfileComponent extends React.Component {
                         </div>
                     </div>
                 </div>
+                }
             </div>
         )
     }
