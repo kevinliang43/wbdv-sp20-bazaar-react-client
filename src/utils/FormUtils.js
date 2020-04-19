@@ -7,7 +7,6 @@ export const checkForEmptyFields = (form) => {
 
     for(var i=0; i<keys.length; i++){
         if(!form[keys[i]]) {
-            console.log('heres what wasnt filled out', keys[i])
             return false;
         }
     }
