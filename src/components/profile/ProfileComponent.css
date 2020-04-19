@@ -1,0 +1,13 @@
+.profile-nosession {
+    height: 300px;
+}
+
+.no-border{
+    border:none;
+}
+
+#profile-pic {
+    max-height: 200px;
+    max-width: 200px;
+    width:100%
+}

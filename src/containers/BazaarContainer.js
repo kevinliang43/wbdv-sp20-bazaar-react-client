@@ -13,6 +13,7 @@ import {connect} from "react-redux";
 import craigslistService from "../services/CraigslistService"
 import {findLocationsAction} from "../actions/locationActions"
 import {logout, profile} from "../services/UserService"
+import PublicProfileComponent from "../components/profile/PublicProfileComponent";
 
 class BazaarContainer extends React.Component {
 
@@ -110,7 +111,17 @@ class BazaarContainer extends React.Component {
                         <ProfileComponent
                         {...props}
                         logout={this.logout}
-                        profile={this.state.profile}/>}/>
+                        profile={this.state.profile}
+                        retrieveSession={this.retrieveSession}
+                        />}/>
+                <Route path={`/profile/:userId`}
+                       exact={true}
+                       render={(props) =>
+                           <PublicProfileComponent
+                               {...props}
+                               logout={this.logout}
+                               profile={this.state.profile}
+                               userId={props.match.params.userId}/>}/>
             </Router>
 
             <FooterComponent/>
