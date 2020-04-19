@@ -23,6 +23,11 @@ export default class CraigslistPostDetailsComponent extends React.Component {
     render() {
         return (
             <div>
+                {console.log(this.props.history)}
+                {this.props.history.length >= 1 &&
+                <button className="btn btn-success mt-3" onClick={() => this.props.history.goBack()}>
+                    Back to Search Results
+                </button>}
                 <h2 className="mt-3">{this.state.listing.title}</h2>
                 <h4>{this.state.listing.price}</h4>
                 <div className="row">
