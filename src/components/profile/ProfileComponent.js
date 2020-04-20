@@ -7,6 +7,7 @@ Profile page can only be accessed
  */
 
 import React from "react";
+import {connect} from "react-redux";
 import NavBarComponent from "../NavBarComponent";
 import ListingRowComponent from "../ListingRowComponent";
 import {searchListings} from "../../services/CraigslistService";
@@ -14,8 +15,10 @@ import userService from "../../services/UserService";
 import "./ProfileComponent.css";
 import defaultProPic from '../../images/defaultProfilePic.jpg';
 import {capitalizeAllFirstLetter} from "../../utils/StringUtils"
+import {findListingForUser} from "../../actions/listingActions"
+import listingService from "../../services/BazaarListingService"
 
-export default class ProfileComponent extends React.Component {
+class ProfileComponent extends React.Component {
     state = {
         listings: [],
         searchQuery: '',
@@ -64,16 +67,13 @@ export default class ProfileComponent extends React.Component {
     }
 
     componentDidMount() {
-        searchListings("boston", "jacket", 3)
-            .then(results => this.setState({
-                    listings: results
-                }
-            ))
+        //this.props.findListingsForUserId(this.props.profile.id);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.profile !== this.props.profile) { //If BazaarContainer retrieves updated profile (example: after make update request)
-            this.setState({profile: {...this.props.profile}})
+            this.setState({profile: {...this.props.profile}});
+            this.props.findListingsForUserId(this.props.profile.id);
         }
     }
 
@@ -93,6 +93,7 @@ export default class ProfileComponent extends React.Component {
                     profile={this.props.profile}
                     logout={this.props.logout}
                 />
+                {console.log(this.props)}
                 {
                     Object.keys(this.props.profile).length === 0 &&
                     <div className="row d-flex justify-content-center profile-nosession align-items-center p-5">
@@ -313,16 +314,17 @@ export default class ProfileComponent extends React.Component {
                             this.state.activeTab === 'LISTINGS' &&
                             <div>
                                 <h2 className="py-2">My Listings</h2>
-                                {/*TODO: Show listings made by this user. Current placeholder is just 3 listings for "jacket" in Boston made on Craigslist.com*/}
                                 {
                                     this.state.view === 'LIST' &&
                                     <div className="list-group mt-2">
-                                        {this.state.listings.map((listing, idx) =>
+                                        {this.props.listings.map((listing, idx) =>
                                             <ListingRowComponent
                                                 key={idx}
                                                 idx={idx}
                                                 listing={listing}
-                                                city={this.state.city}/>
+                                                city={this.state.city}
+                                                type="bazaar"
+                                                />
                                         )}
                                     </div>
                                 }
@@ -365,3 +367,23 @@ export default class ProfileComponent extends React.Component {
     }
 
 }
+
+const stateToPropertyMapper = (state) => {
+    return {
+        listings: state.listings.listings
+    }
+}
+
+const dispatchToPropertyMapper = (dispatch) => {
+    return {
+        findListingsForUserId: (userId) => 
+            listingService.findListingsForUserId(userId)
+                .then(listings =>
+                        dispatch(findListingForUser(listings)))
+    }
+}
+
+export default connect(
+    stateToPropertyMapper,
+    dispatchToPropertyMapper)
+(ProfileComponent)
