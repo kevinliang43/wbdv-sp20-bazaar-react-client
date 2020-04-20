@@ -1,7 +1,10 @@
 import "./CreateListingComponent.css"
 import React from "react"
+import {connect} from "react-redux";
 import NavBarComponent from "../NavBarComponent";
 import { capitalizeAllFirstLetter } from "../../utils/StringUtils"
+import listingService from "../../services/BazaarListingService"
+import {createListingAction} from "../../actions/listingActions"
 
 
 class CreateListingComponent extends React.Component {
@@ -12,63 +15,46 @@ class CreateListingComponent extends React.Component {
         description: '',
         price: 0,
         imageUrl: '',
+        city: this.props.profile.city,
 
-
-        continentList: [],
-        regionList: [],
-        subregionList: [],
-        selectedContinent: '',
-        selectedRegion: '',
-        selectedSubregion: '',
+        showErrors: false,
+        errors: []
     }
 
-
-    postListing = () =>
-        console.log(this.state)
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.locations !== this.props.locations) {
-
-            let continentList = this.getContinents();
-            let selectedContinent = continentList[0];
-            let regionList = this.getRegionsForContinent(selectedContinent);
-            let selectedRegion = regionList[0];
-            let subregionList = this.getSubregionsForRegion(selectedContinent, selectedRegion);
-            let selectedSubregion = subregionList[0][1];
-
-            this.setState(prevState => (
-                {
-                    ...prevState,
-                    'continentList': continentList,
-                    'selectedContinent': selectedContinent,
-                    'regionList': regionList,
-                    'selectedRegion': selectedRegion,
-                    'subregionList': subregionList,
-                    'selectedSubregion': selectedSubregion
-                }
-            ))
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.profile !== this.props.profile) { //If BazaarContainer retrieves updated profile (example: after make update request)
+            this.setState({city: this.props.profile.city})
         }
     }
 
-    updateField(currentKey, newValue) {
-        this.setState(prevState => (
-            {
-                ...prevState,
-                [currentKey]: newValue
-            }
-        ))
-    }
+    postListing = () => {
+        let newErrors = this.listingChecks();
 
-    getContinents = () => {
-        return Object.keys(this.props.locations);
-    }
+        if (newErrors.length > 0) {
+            // Errors, Render error alert on the page
+            this.setState({
+                showErrors: true,
+                errors: newErrors
+            })
+        }
+        else {
+            // No errors after checking, create the listing
+            this.props.createListing(
+                this.props.profile.id,
+                {
+                    title: this.state.title,
+                    type: this.state.type,
+                    description: this.state.description,
+                    price: this.state.price,
+                    imageUrl: this.state.imageUrl,
+                    city: this.state.city,
+                    date: Date.now()
+                }
+            )
+        }
 
-    getRegionsForContinent = (continent) => {
-        return Object.keys(this.props.locations[continent]['regions']);
-    }
+        console.log(this.state);
 
-    getSubregionsForRegion = (continent, region) => {
-        return Object.entries(this.props.locations[continent]['regions'][region])
     }
 
     resetProductFields = () => 
@@ -78,6 +64,26 @@ class CreateListingComponent extends React.Component {
                 imageUrl: ''
             }
         )
+
+    regionToUrlMapping = require("../../services/serviceResources/regionToUrlMapping.json");
+
+    listingChecks() {
+        let newErrors = [];
+
+        if (this.state.title.length === 0) {
+            newErrors.push('Please Enter a Title for your Listing');
+        }
+
+        if (this.state.description.length === 0) {
+            newErrors.push('Please Enter a Description for your Listing');
+        }
+
+        if (this.state.price.toString().split('.').length > 1 && this.state.price.toString().split('.')[1].length > 2) {
+            newErrors.push('Please Enter a valid price for your Listing. Example: "42.55".');
+        }
+
+        return newErrors;
+    }
 
     render() {
         return(
@@ -89,6 +95,14 @@ class CreateListingComponent extends React.Component {
                 <div class="mt-4">
 
                     <h2>Create a Listing</h2>
+                    {this.state.showErrors &&
+                        <div class="alert alert-danger text-center" role="alert">
+                            <h4>ERROR</h4>
+                            {this.state.errors.map(errorMessage =>
+                            <p>{errorMessage}</p>
+                            )}
+                        </div>
+                    }
                     <br></br>
 
                     <h4>Listing General Information</h4>
@@ -128,75 +142,31 @@ class CreateListingComponent extends React.Component {
                     </div>
 
                     <div class="form-group">
-                        <label for="listingPrice">Listing Price</label>
-                        <input type="number" class="form-control" id="listingPrice" placeholder="Enter a Listing Price"
-                            onChange={e => this.setState({price: e.target.value})}
-                            value={this.state.price}/>
+                        <label for="listingPrice">Listing Price (in USD)</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" class="form-control" id="listingPrice" placeholder="Enter a Listing Price"
+                                onChange={e => this.setState({price: e.target.value})}
+                                value={this.state.price}/>
+                        </div>
                         <small id="priceHelp" class="form-text text-muted">Example: 42.69</small>
-
                     </div>
 
                     <br></br>
                     <h4>Listing Location Information</h4>
-                    <div class="form-group row">
-                        <div class="form-group col-md-4">
-                            <label for="inputContinent" class="col-form-label float-left">Continent</label>
-                            <select id="inputContinent" class="form-control"
-                                onChange={(e) => {
-                                    let selectedContinent = e.target.value;
-                                    let regionList = this.getRegionsForContinent(selectedContinent);
-                                    let selectedRegion = regionList[0];
-                                    let subregionList = this.getSubregionsForRegion(selectedContinent, selectedRegion);
-                                    let selectedSubregion = subregionList[0][1];
-                        
-                                    this.setState(prevState => (
-                                        {
-                                            ...prevState,
-                                            'selectedContinent': selectedContinent,
-                                            'regionList': regionList,
-                                            'selectedRegion': selectedRegion,
-                                            'subregionList': subregionList,
-                                            'selectedSubregion': selectedSubregion
-                                        }))}}>
-                                {this.state.continentList && this.state.continentList.map(continentKey => 
-                                    <option key={continentKey} value={continentKey}>{this.props.locations[continentKey]['continentName']}</option>
-                                )}
-                            </select>
-                        </div>
 
-                        <div class="form-group col-md-4">
-                            <label for="inputRegion" class="col-form-label float-left">Region</label>
-                            <select id="inputRegion" class="form-control" 
-                                onChange={(e) => {
-                                    let selectedRegion = e.target.value;
-                                    let subregionList = this.getSubregionsForRegion(this.state.selectedContinent, selectedRegion);
-                                    let selectedSubregion = subregionList[0][1];
-                        
-                                    this.setState(prevState => (
-                                        {
-                                            ...prevState,
-                                            'selectedRegion': selectedRegion,
-                                            'subregionList': subregionList,
-                                            'selectedSubregion': selectedSubregion
-                                        }))}}>
-                                {this.state.regionList && this.state.regionList.map(regionKey => 
-                                    <option key={regionKey} value={regionKey}>{regionKey}</option>
-                                )}
+                    <div class="form-group">
+                        <label for="cityFld">Region</label>
+                            <select class="form-control" id="cityFld"
+                                onChange={(e) => this.setState({city: e.target.value})
+                            }
+                                value={this.state.city}>
+                                    {Object.keys(this.regionToUrlMapping).map(regionName =>
+                                        <option key={regionName} value={this.regionToUrlMapping[regionName]}>{capitalizeAllFirstLetter(regionName)}</option>
+                                    )}
                             </select>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="inputSubregion" class="col-form-label float-left">Subregion</label>
-                            <select id="inputSubregion" class="form-control" 
-                                onChange={(e) => {
-                                    this.updateField("selectedSubregion", e.target.value)
-                                }}
-                            >
-                                {this.state.subregionList && this.state.subregionList.map(subregionKey => 
-                                    <option key={subregionKey[0]} value={subregionKey[1]}>{capitalizeAllFirstLetter(subregionKey[0])}</option>
-                                )}
-                            </select>                    
-                        </div>
                     </div>
 
                     {this.state.type === 'PRODUCT' &&
@@ -232,4 +202,22 @@ class CreateListingComponent extends React.Component {
     }
 }
 
-export default CreateListingComponent
+const stateToPropertyMapper = (state) => {
+    return {
+        listings: state.listings.listings
+    }
+}
+
+const dispatchToPropertyMapper = (dispatch) => {
+    return {
+        createListing: (userId, listing) => 
+            listingService.createListing(userId, listing)
+                .then(newListing =>
+                        dispatch(createListingAction(newListing)))
+    }
+}
+
+export default connect(
+    stateToPropertyMapper,
+    dispatchToPropertyMapper)
+(CreateListingComponent)
