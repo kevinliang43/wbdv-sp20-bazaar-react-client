@@ -4,12 +4,14 @@ import './App.css';
 
 import {combineReducers, createStore} from "redux";
 import locationReducer from "../src/reducers/locationReducer";
+import listingReducer from "../src/reducers/listingReducer"
 import {Provider} from "react-redux";
 
 
 
 const rootReducer = combineReducers({
-    locations: locationReducer
+    locations: locationReducer,
+    listings: listingReducer
 })
 
 const store = createStore(rootReducer)
