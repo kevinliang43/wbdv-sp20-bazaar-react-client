@@ -15,6 +15,7 @@ import {findLocationsAction} from "../actions/locationActions"
 import {logout, profile} from "../services/UserService"
 import CreateListingComponent from "../components/createListing/CreateListingComponent";
 import PublicProfileComponent from "../components/profile/PublicProfileComponent";
+import BazaarListingComponent from "../components/bazaarListing/BazaarListingComponent";
 
 class BazaarContainer extends React.Component {
 
@@ -83,6 +84,16 @@ class BazaarContainer extends React.Component {
                         profile={this.state.profile}/>}/>
 
                 <Route
+                    path={`/listings/:listingId`}
+                    exact={true}
+                    render={(props) =>
+                        <BazaarListingComponent
+                            {...props}
+                            logout={this.logout}
+                            listingId={props.match.params.listingId}
+                            profile={this.state.profile}/>}/>
+
+                <Route
                     path={`/login`}
                     exact={true}
                     render={(props) =>
@@ -115,6 +126,7 @@ class BazaarContainer extends React.Component {
                         profile={this.state.profile}
                         retrieveSession={this.retrieveSession}
                         />}/>
+
                 <Route path={`/profile/:userId`}
                        exact={true}
                        render={(props) =>
@@ -123,6 +135,7 @@ class BazaarContainer extends React.Component {
                                logout={this.logout}
                                profile={this.state.profile}
                                userId={props.match.params.userId}/>}/>
+
                 <Route
                     path={`/createlisting`}
                     exact={true}
@@ -132,6 +145,7 @@ class BazaarContainer extends React.Component {
                         locations={this.props.locations}
                         logout={this.logout}
                         profile={this.state.profile}/>}/>
+
             </Router>
 
             <FooterComponent/>
