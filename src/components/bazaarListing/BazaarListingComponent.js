@@ -2,10 +2,14 @@ import React from "react";
 import {parseDate} from "../../utils/StringUtils"
 import listingService from "../../services/BazaarListingService"
 import NavBarComponent from "../NavBarComponent"
+import userService from "../../services/UserService";
+import {deleteListingAction} from "../../actions/listingActions"
+import {connect} from "react-redux";
 
 
 
-export default class BazaarListingComponent extends React.Component {
+
+class BazaarListingComponent extends React.Component {
 
     componentDidMount() {
         listingService.findListingById(this.props.listingId)
@@ -13,11 +17,23 @@ export default class BazaarListingComponent extends React.Component {
                 this.setState({
                     listing: listing
                 }))
+            .then(results => userService.findUserById(this.state.listing.uid))
+            .then(user => this.setState({
+                ...this.state,
+                user: user
+            }))
+
+
     }
 
     state = {
+        user: {},
         listing : {}
     }
+
+    deleteListing = () =>
+        this.props.deleteListing(this.props.profile, this.state.listing)
+            .then(result => this.props.history.push("/profile"))
 
     render() {
         return (
@@ -26,10 +42,9 @@ export default class BazaarListingComponent extends React.Component {
                     profile = {this.props.profile}
                     logout = {this.props.logout}
                 />
-                {console.log(this.props)}
                 {this.props.history.length >= 1 &&
                 <button className="btn btn-success mt-3" onClick={() => this.props.history.goBack()}>
-                    Back to Search Results
+                    Back
                 </button>}
                 <h2 className="mt-3">{this.state.listing.title}</h2>
                 <h4>{this.state.listing.price}</h4>
@@ -39,20 +54,23 @@ export default class BazaarListingComponent extends React.Component {
                         <br/>
                         <p>Posted: {parseDate(this.state.listing.date)}</p>
                         
-                        {/* TODO: Add delete/update buttons if this listing belongs to the owner.
-                        
-                        {this.props.listings && this.props.listings.indexOf(this.state.listing) !== -1 &&
+                        {Object.keys(this.props.profile).length > 0 && Object.keys(this.state.user).length > 0 && this.state.user.id === this.props.profile.id &&
                             <div>
-                                <button className="btn btn-success mt-3" >
+                                <button className="btn btn-success mt-3 col" >
                                     Update Listing
                                 </button>
-                                <button className="btn btn-danger mt-3" >
+                                <button className="btn btn-danger mt-3 col" onClick={() => this.deleteListing()}>
                                     Delete Listing
                                 </button>
                             </div>
-
-
-                        } */}
+                        }
+                        {Object.keys(this.props.profile).length > 0 && Object.keys(this.state.user).length > 0 && this.state.user.id !== this.props.profile.id &&
+                            <div>
+                                <button className="btn btn-success mt-3" onClick={() => this.props.history.push(`/profile/${this.state.user.id}`)}>
+                                    Visit {this.state.user.username}'s Profile
+                                </button>
+                            </div>
+                        }
 
                     </div>
 
@@ -68,3 +86,23 @@ export default class BazaarListingComponent extends React.Component {
         )
     }
 }
+
+const stateToPropertyMapper = (state) => {
+    return {
+        listings: state.listings.listings
+    }
+}
+
+const dispatchToPropertyMapper = (dispatch) => {
+    return {
+        deleteListing: (user, listing) => 
+            listingService.deleteListing(user.id, listing.id)
+                .then(result =>
+                        dispatch(deleteListingAction(listing.id)))
+    }
+}
+
+export default connect(
+    stateToPropertyMapper,
+    dispatchToPropertyMapper)
+(BazaarListingComponent)
