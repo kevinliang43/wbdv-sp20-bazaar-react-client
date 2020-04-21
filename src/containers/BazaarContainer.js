@@ -16,6 +16,7 @@ import {logout, profile} from "../services/UserService"
 import CreateListingComponent from "../components/createListing/CreateListingComponent";
 import PublicProfileComponent from "../components/profile/PublicProfileComponent";
 import BazaarListingComponent from "../components/bazaarListing/BazaarListingComponent";
+import AdminComponent from "../components/admin/AdminComponent";
 
 class BazaarContainer extends React.Component {
 
@@ -143,6 +144,15 @@ class BazaarContainer extends React.Component {
                         <CreateListingComponent
                         {...props}
                         locations={this.props.locations}
+                        logout={this.logout}
+                        profile={this.state.profile}/>}/>
+
+                <Route
+                    path={`/admin`}
+                    exact={true}
+                    render={(props) =>
+                        <AdminComponent
+                        {...props}
                         logout={this.logout}
                         profile={this.state.profile}/>}/>
 
