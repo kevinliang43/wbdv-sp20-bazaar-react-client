@@ -14,6 +14,7 @@ class RegisterComponent extends React.Component {
         password: '',
         confirmPassword: '',
         registrationState: {},
+        role: 'REGULAR',
 
         continentList: [],
         regionList: [],
@@ -67,7 +68,8 @@ class RegisterComponent extends React.Component {
             username: this.state.username,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword,
-            city: this.state.selectedSubregion
+            city: this.state.selectedSubregion,
+            role: this.state.role
 
         })
             .then(newRegistrationState => {
@@ -156,6 +158,18 @@ class RegisterComponent extends React.Component {
                             <input class="form-control" placeholder="Username"
                                    onChange={(e) => this.updateField("username", e.target.value)
                                    }/>
+                        </div>
+
+                        <div className="form-group">
+                            <label for="role" class="col-form-label text-white float-left">
+                                Role
+                            </label>
+                            <select class="form-control" placeholder="Role"
+                                   onChange={(e) => this.updateField("role", e.target.value)
+                                   }>
+                                <option value="REGULAR">Regular</option>
+                                <option value="ADMIN">Admin</option>
+                            </select>
                         </div>
 
                         <div className="form-group">
