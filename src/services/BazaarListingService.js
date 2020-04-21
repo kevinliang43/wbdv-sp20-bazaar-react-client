@@ -20,10 +20,10 @@ export const findListingById = async (listingId) => {
     return await response.json()
 }
 
-export const updateListing = (listingId, module) =>
-    fetch(`${API_LISTING_URL}/${listingId}`, {
+export const updateListing = (uid, listingId, listing) =>
+    fetch(`${API_USER_URL}/${uid}/listings/${listingId}`, {
         method: 'PUT',
-        body: JSON.stringify(module),
+        body: JSON.stringify(listing),
         credentials: "include",
         headers: {
             'content-type': 'application/json'
