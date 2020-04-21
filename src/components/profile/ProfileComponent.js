@@ -71,7 +71,9 @@ class ProfileComponent extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.profile !== this.props.profile) { //If BazaarContainer retrieves updated profile (example: after make update request)
             this.setState({profile: {...this.props.profile}});
-            this.props.findListingsForUserId(this.props.profile.id);
+            if (this.props.profile.id) {
+                this.props.findListingsForUserId(this.props.profile.id);
+            }
         }
 
         if (this.props.listings !== this.state.listings) {
@@ -141,7 +143,7 @@ class ProfileComponent extends React.Component {
                                     <div className="col-sm-8">
                                         <input className="form-control"
                                                id="usernameFld"
-                                               type="url"
+                                               placeholder="Username"
                                                onChange={(e) =>
                                                    this.updateStateProfile('username', e.target.value)}
                                                value={this.state.profile.username}/>
@@ -155,6 +157,7 @@ class ProfileComponent extends React.Component {
                                         <input className="form-control"
                                                id="passwordFld"
                                                type="password"
+                                               placeholder="Password"
                                                onChange={(e) =>
                                                    this.updateStateProfile('password', e.target.value)}
                                                value={this.state.profile.password}/>
@@ -181,6 +184,7 @@ class ProfileComponent extends React.Component {
                                     <div className="col-sm-8">
                                         <input className="form-control"
                                                id="firstNameFld"
+                                               placeholder="First Name"
                                                onChange={(e) =>
                                                    this.updateStateProfile('firstName', e.target.value)}
                                                value={this.state.profile.firstName}/>
@@ -193,21 +197,10 @@ class ProfileComponent extends React.Component {
                                     <div className="col-sm-8">
                                         <input className="form-control"
                                                id="lastNameFld"
+                                               placeholder="Last Name"
                                                onChange={(e) =>
                                                    this.updateStateProfile('lastName', e.target.value)}
                                                value={this.state.profile.lastName}/>
-                                    </div>
-                                </div>
-                                <div className="form-group row my-2">
-                                    <label for="phoneFld" className="col-sm col-form-label">
-                                        Phone
-                                    </label>
-                                    <div className="col-sm-8">
-                                        {/*TODO: Currently no phone-number field in User model. Readonly for now.*/}
-                                        <input className="form-control"
-                                               id="phoneFld"
-                                               type="tel"
-                                               placeholder="555-555-5555" readOnly/>
                                     </div>
                                 </div>
                                 <div className="form-group row my-2">
@@ -218,6 +211,7 @@ class ProfileComponent extends React.Component {
                                         <input className="form-control"
                                                id="emailFld"
                                                type="email"
+                                               placeholder="Email"
                                                onChange={(e) =>
                                                    this.updateStateProfile('email', e.target.value)}
                                                value={this.state.profile.email}/>

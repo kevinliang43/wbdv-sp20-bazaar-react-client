@@ -4,6 +4,8 @@ import {searchListings} from "../services/CraigslistService"
 import {defaultCity} from "../constants"
 import {normalizeCity} from "../utils/StringUtils"
 import ListingCardComponent from "../components/ListingCardComponent";
+import {capitalizeAllFirstLetter} from "../utils/StringUtils"
+
 
 export default class CraigslistSearchComponent extends React.Component {
 
@@ -38,6 +40,8 @@ export default class CraigslistSearchComponent extends React.Component {
             }))
     }
 
+    regionToUrlMapping = require("../services/serviceResources/regionToUrlMapping.json");
+
     render() {
         return (
             <div className="mt-4">
@@ -61,11 +65,15 @@ export default class CraigslistSearchComponent extends React.Component {
                         value={this.state.searchQuery}
                         placeHolder={`Search for Listings`}/>
 
+
                 <label for="searchCity" class="col-form-label">City</label>
-                <input className={`form-control`}
-                        onChange={e => this.setState({city: e.target.value})}
-                        value={this.state.city}
-                        placeHolder={`City to search for listings in`}/>
+                <select class="form-control" id="searchCity"
+                    onChange={(e) => this.setState({city: e.target.value})}
+                    defaultValue={defaultCity}>
+                        {Object.keys(this.regionToUrlMapping).map(regionName =>
+                            <option key={regionName} value={this.regionToUrlMapping[regionName]}>{capitalizeAllFirstLetter(regionName)}</option>
+                        )}
+                </select>
             </div>
 
             <button className={`btn btn-success btn-block`}

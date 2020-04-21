@@ -20,6 +20,9 @@ export const parseCraigslistSubregionURLPrefix = (craigslistURL) => {
 }
 
 export const capitalizeAllFirstLetter = (string) => {
+    if (!string) {
+        return '';
+    }
     let stringArray = string.split(" ");
     let capitalizedStringArray = stringArray.map(stringSlice => stringSlice.charAt(0).toUpperCase() + stringSlice.slice(1));
     return capitalizedStringArray.join(" ")

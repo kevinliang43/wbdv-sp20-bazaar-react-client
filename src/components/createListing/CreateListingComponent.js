@@ -93,6 +93,17 @@ class CreateListingComponent extends React.Component {
                     profile = {this.props.profile}
                     logout = {this.props.logout}
                 />
+                {Object.keys(this.props.profile).length === 0 &&
+                    <div className="row d-flex justify-content-center profile-nosession align-items-center p-5">
+                        <div className="col-sm-4 col-10 text-center border rounded pb-4 pt-3">
+                            <h4>Sign up to Create a Listing</h4>
+                            <a className="btn btn-block btn-success" href="/register">Register</a>
+                            <h4 className="mt-4">Returning User?</h4>
+                            <a className="btn btn-block btn-secondary" href="/login">Log In</a>
+                        </div>
+                    </div>
+                }
+                {Object.keys(this.props.profile).length !== 0 &&
                 <div class="mt-4">
 
                     <h2>Create a Listing</h2>
@@ -193,6 +204,7 @@ class CreateListingComponent extends React.Component {
                     <a className="btn btn-block btn-danger" href="/">Cancel</a>
                     
                 </div>
+            }
 
             </div>
         )
