@@ -66,7 +66,6 @@ class PublicProfileComponent extends React.Component {
                                                 />
                                         )}
                                     </div>
-                                )}
                             </div>
                         </div>
                     </div>

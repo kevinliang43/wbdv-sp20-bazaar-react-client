@@ -25,7 +25,6 @@ class ProfileComponent extends React.Component {
         city: 'boston',
         view: 'LIST',
         editing: false,
-        activeTab: 'LISTINGS',
         profile: this.props.profile,
         profileUpdateState: {},
     };
@@ -37,8 +36,7 @@ class ProfileComponent extends React.Component {
                 this.setState(prevState => (
                     {
                         ...prevState,
-                        'profileUpdateState': newProfileUpdateState,
-                        editing: false
+                        'profileUpdateState': newProfileUpdateState
                     }));
             });
     };
@@ -307,53 +305,33 @@ class ProfileComponent extends React.Component {
                         }
                     </div>
                     <div className="col border border-success pt-3">
-                        <ul className="nav nav-tabs nav-fill">
-                            <li onClick={() => this.setState({activeTab: 'LISTINGS'})}
-                                className="nav-item">
-                                <a className={`btn nav-link ${this.state.activeTab === 'LISTINGS' ? 'active' : ''}`}>Listings</a>
-                            </li>
-                            <li onClick={() => this.setState({activeTab: 'FAVORITES'})}
-                                className="nav-item">
-                                <a className={`btn nav-link ${this.state.activeTab === 'FAVORITES' ? 'active' : ''}`}>Favorites</a>
-                            </li>
-                        </ul>
-                        {
-                            this.state.activeTab === 'LISTINGS' &&
-                            <div>
-                                <h2 className="py-2">My Listings</h2>
-                                {
-                                    this.state.view === 'LIST' &&
-                                    <div>
-                                    <div className="list-group mt-2">
-                                        {this.props.listings.map((listing, idx) =>
-                                            <ListingRowComponent
-                                                key={idx}
-                                                idx={idx}
-                                                listing={listing}
-                                                city={this.state.city}
-                                                type="bazaar"
-                                                />
-                                        )}
-                                    </div>
+                        <div>
+                            <h2 className="py-2">My Listings</h2>
+                            {
+                                this.state.view === 'LIST' &&
+                                <div>
+                                <div className="list-group mt-2">
+                                    {this.props.listings.map((listing, idx) =>
+                                        <ListingRowComponent
+                                            key={idx}
+                                            idx={idx}
+                                            listing={listing}
+                                            city={this.state.city}
+                                            type="bazaar"
+                                            />
+                                    )}
+                                </div>
 
-                                    <br></br>
-                                    <Link to={`/createlisting`}>
-                                        <button class="btn btn-success col">
-                                            Create New Listing
-                                        </button>
-                                    </Link>
-                                        
-                                    </div>
-                                }
-                            </div>
-                        }
-                        {
-                            this.state.activeTab === 'FAVORITES' &&
-                            <div>
-                                <h2 className="py-2">My Favorites</h2>
-                                {/*TODO: Show listings favorited by this user.*/}
-                            </div>
-                        }
+                                <br></br>
+                                <Link to={`/createlisting`}>
+                                    <button class="btn btn-success col">
+                                        Create New Listing
+                                    </button>
+                                </Link>
+
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>}
                 <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog"
