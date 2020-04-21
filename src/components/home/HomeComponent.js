@@ -6,6 +6,8 @@ import {getRecentListings} from "../../services/CraigslistService"
 import {normalizeCity} from "../../utils/StringUtils"
 import ListingRowComponent from "../ListingRowComponent";
 import HeadLineComponent from "./headline/HeadLineComponent"
+import { capitalizeAllFirstLetter } from "../../utils/StringUtils"
+
 
 
 
@@ -16,12 +18,29 @@ export default class HomeComponent extends React.Component {
         searchQuery: '',
         city: 'boston', //TODO: Replace with user's city when we implement users state
         view: 'LIST',
-        loggedIn: false
     }
 
     componentDidMount() {
-        this.getRecentListings(this.state.city)
+        if (Object.keys(this.props.profile).length !== 0) {
+            this.getRecentListings(this.props.profile.city)
+        }
+        else {
+            this.getRecentListings(defaultCity)
+
+        }
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.profile !== this.props.profile) { //If BazaarContainer retrieves updated profile (example: after make update request)
+            if (Object.keys(this.props.profile).length !== 0) {
+                this.getRecentListings(this.props.profile.city)
+            }
+            else {
+                this.getRecentListings(defaultCity)
+
+            }
+        }
+    } 
 
     getRecentListings = (searchCity) => {
         if (!searchCity.replace(/\s/g, '')) {
@@ -33,6 +52,8 @@ export default class HomeComponent extends React.Component {
                 listings : results
             }))
     }
+
+    urlToRegionMapping = require("../../services/serviceResources/urlToRegionMapping.json");
 
     render() {
         return (
@@ -50,7 +71,7 @@ export default class HomeComponent extends React.Component {
                         <HeadLineComponent/>
                     </div>
 
-                    {!this.state.loggedIn && // Anonymous View TODO: Put this into redux state handler
+                    {Object.keys(this.props.profile).length === 0 &&
 
                         <div className="col-10">
                             <h1 className="display-2 text-center mb-5">Recent Listings</h1>
@@ -65,6 +86,23 @@ export default class HomeComponent extends React.Component {
                                     )}
                                 </ul>
                         </div>
+                    }
+
+                    {Object.keys(this.props.profile).length !== 0 &&
+
+                            <div className="col-10">
+                            <h1 className="display-2 text-center mb-5">Recent Listings in {capitalizeAllFirstLetter(this.urlToRegionMapping[this.props.profile.city])} </h1>
+                                <ul className={`list-group mt-2`}>
+                                    {this.state.listings.map((listing, idx) =>
+                                        <ListingRowComponent
+                                            idx={idx}
+                                            listing={listing}
+                                            city={this.state.city}
+                                            type="craigslist"
+                                            />
+                                    )}
+                                </ul>
+                            </div>
                     }
 
                 </div>
