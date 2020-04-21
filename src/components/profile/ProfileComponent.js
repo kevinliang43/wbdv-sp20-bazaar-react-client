@@ -10,7 +10,7 @@ import React from "react";
 import {connect} from "react-redux";
 import NavBarComponent from "../NavBarComponent";
 import ListingRowComponent from "../ListingRowComponent";
-import {searchListings} from "../../services/CraigslistService";
+import {Link} from "react-router-dom"
 import userService from "../../services/UserService";
 import "./ProfileComponent.css";
 import defaultProPic from '../../images/defaultProfilePic.jpg';
@@ -77,7 +77,6 @@ class ProfileComponent extends React.Component {
         }
 
         if (this.props.listings !== this.state.listings) {
-            console.log("not same")
             this.setState({
                 listings: this.props.listings
             })
@@ -102,7 +101,6 @@ class ProfileComponent extends React.Component {
                     profile={this.props.profile}
                     logout={this.props.logout}
                 />
-                {console.log(this.props)}
                 {
                     Object.keys(this.props.profile).length === 0 &&
                     <div className="row d-flex justify-content-center profile-nosession align-items-center p-5">
@@ -325,6 +323,7 @@ class ProfileComponent extends React.Component {
                                 <h2 className="py-2">My Listings</h2>
                                 {
                                     this.state.view === 'LIST' &&
+                                    <div>
                                     <div className="list-group mt-2">
                                         {this.props.listings.map((listing, idx) =>
                                             <ListingRowComponent
@@ -335,6 +334,15 @@ class ProfileComponent extends React.Component {
                                                 type="bazaar"
                                                 />
                                         )}
+                                    </div>
+
+                                    <br></br>
+                                    <Link to={`/createlisting`}>
+                                        <button class="btn btn-success col">
+                                            Create New Listing
+                                        </button>
+                                    </Link>
+                                        
                                     </div>
                                 }
                             </div>
