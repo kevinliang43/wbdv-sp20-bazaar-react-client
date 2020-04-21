@@ -4,7 +4,7 @@ import UserService from "../../services/UserService";
 import ListingRowComponent from "../ListingRowComponent";
 import {searchListings} from "../../services/CraigslistService";
 import defaultProPic from "../../images/defaultProfilePic.jpg"
-import {capitalizeAllFirstLetter} from "../../utils/StringUtils";
+import {capitalizeAllFirstLetter, } from "../../utils/StringUtils";
 import BazaarListingService from '../../services/BazaarListingService';
 
 class PublicProfileComponent extends React.Component {
@@ -19,6 +19,10 @@ class PublicProfileComponent extends React.Component {
         BazaarListingService.findListingsForUserId(this.props.userId)
             .then(results => this.setState({listings: results}));
     }
+
+    urlToRegionMapping = require("../../services/serviceResources/urlToRegionMapping.json");
+    getRegionNameFromUrl = (url) =>
+        this.urlToRegionMapping[url]
 
     render() {
         return (
@@ -47,7 +51,7 @@ class PublicProfileComponent extends React.Component {
                             <h3 className="mt-2">{this.state.user.username}</h3>
                             <span>
                                 <b>Operating Location: </b>
-                                {capitalizeAllFirstLetter(this.state.user.city ? this.state.user.city : '')}
+                                {capitalizeAllFirstLetter(this.state.user.city ? this.getRegionNameFromUrl(this.state.user.city) : '')}
                             </span>
                         </div>
                     </div>
