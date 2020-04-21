@@ -52,9 +52,9 @@ export default class NavBarComponent extends React.Component {
                         {/* <input className="form-control mr-sm-2" type="search" placeholder="Search Listings"
                                onChange={e => this.setState({searchQuery: e.target.value})}/>
                         <input class="form-control mr-sm-2" type="search" placeholder="Search City"
-                               onChange={e => this.setState({searchCity: e.target.value})}/> */}
+                               onChange={e => this.setState({searchCity: e.target.value})}/>
                         <a class="btn btn-outline-success my-2 mr-2 my-sm-0"
-                           href={`/search/${normalizeCity(this.state.searchCity)}/${this.state.searchQuery}`}>Search</a>
+                           href={`/search/${normalizeCity(this.state.searchCity)}/${this.state.searchQuery}`}>Search</a>*/}
 
                         {Object.keys(this.props.profile).length == 0 &&
                         <a class="btn btn-outline-success my-2 my-sm-0"

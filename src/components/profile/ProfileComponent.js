@@ -71,7 +71,9 @@ class ProfileComponent extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.profile !== this.props.profile) { //If BazaarContainer retrieves updated profile (example: after make update request)
             this.setState({profile: {...this.props.profile}});
-            this.props.findListingsForUserId(this.props.profile.id);
+            if (this.props.profile.id) {
+                this.props.findListingsForUserId(this.props.profile.id);
+            }
         }
 
         if (this.props.listings !== this.state.listings) {
