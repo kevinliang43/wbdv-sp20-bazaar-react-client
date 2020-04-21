@@ -18,16 +18,19 @@ export default class CraigslistComponent extends React.Component {
                     <Route
                         path={`/search`}
                         exact={true}
+                        profile = {this.props.profile}
                         component={CraigslistSearchComponent}/>
 
                     <Route
                         path={`/search/:city/:searchPost`}
                         exact={true}
+                        profile = {this.props.profile}
                         component={CraigslistSearchComponent}/>
 
                     <Route
                         path={`/posts/:city/:listingID`}
                         exact={true}
+                        profile = {this.props.profile}
                         component={CraigslistPostDetailsComponent}/>
 
                 </Router>
