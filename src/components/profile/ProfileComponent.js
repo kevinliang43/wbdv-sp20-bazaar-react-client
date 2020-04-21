@@ -75,6 +75,15 @@ class ProfileComponent extends React.Component {
             this.setState({profile: {...this.props.profile}});
             this.props.findListingsForUserId(this.props.profile.id);
         }
+
+        if (this.props.listings !== this.state.listings) {
+            console.log("not same")
+            this.setState({
+                listings: this.props.listings
+            })
+        }
+
+        
     }
 
     urlToRegionMapping = require("../../services/serviceResources/urlToRegionMapping.json");
