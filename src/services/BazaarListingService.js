@@ -31,8 +31,8 @@ export const updateListing = (listingId, module) =>
     })
         .then(response => response.json())
 
-export const deleteListing = async (listingId) => {
-    const response = await fetch(`${API_LISTING_URL}/${listingId}`, {
+export const deleteListing = async (uid, listingId) => {
+    const response = await fetch(`${API_USER_URL}/${uid}/listings/${listingId}`, {
         method: 'DELETE',
         credentials: "include",
     })
