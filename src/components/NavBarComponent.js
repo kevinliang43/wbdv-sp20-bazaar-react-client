@@ -42,6 +42,10 @@ export default class NavBarComponent extends React.Component {
                             <li class="nav-item">
                             <a class="nav-link" href="/createlisting">Create Listing</a>
                             </li>}
+                        {Object.keys(this.props.profile).length > 0 && this.props.profile.role === "ADMIN" &&
+                            <li class="nav-item">
+                            <a class="nav-link" href="/admin">Admin</a>
+                            </li>}
                     </ul>
 
                     <form class="form-inline">
