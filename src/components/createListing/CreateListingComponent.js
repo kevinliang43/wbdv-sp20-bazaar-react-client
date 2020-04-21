@@ -48,9 +48,10 @@ class CreateListingComponent extends React.Component {
                     price: this.state.price,
                     imageUrl: this.state.imageUrl,
                     city: this.state.city,
-                    date: Date.now()
+                    date: Date.now(),
+                    uid: this.props.profile.id
                 }
-            )
+            ).then(result => this.props.history.push(`/listings/${result.id}`))
         }
 
         console.log(this.state);
@@ -184,10 +185,6 @@ class CreateListingComponent extends React.Component {
 
                     }
 
-                    {/* {this.state.type === 'PRODUCT' &&
-
-                    } */}
-
                     <button className="btn btn-block btn-success"
                         onClick={(e) => {
                             e.preventDefault();//FIXME: Temporary workaround Prevents refreshing of the page (in order to show alert.)
@@ -212,8 +209,10 @@ const dispatchToPropertyMapper = (dispatch) => {
     return {
         createListing: (userId, listing) => 
             listingService.createListing(userId, listing)
-                .then(newListing =>
-                        dispatch(createListingAction(newListing)))
+                .then(newListing => {
+                    dispatch(createListingAction(newListing));
+                    return newListing;
+                })
     }
 }
 
