@@ -79,7 +79,9 @@ export default class CraigslistSearchComponent extends React.Component {
                             <ListingRowComponent
                                 idx={idx}
                                 listing={listing}
-                                city={this.state.city}/>
+                                city={this.state.city}
+                                type="craigslist"
+                                />
                     )}
                 </ul>
             }

@@ -7,22 +7,24 @@ Profile page can only be accessed
  */
 
 import React from "react";
+import {connect} from "react-redux";
 import NavBarComponent from "../NavBarComponent";
 import ListingRowComponent from "../ListingRowComponent";
-import {searchListings} from "../../services/CraigslistService";
+import {Link} from "react-router-dom"
 import userService from "../../services/UserService";
 import "./ProfileComponent.css";
 import defaultProPic from '../../images/defaultProfilePic.jpg';
 import {capitalizeAllFirstLetter} from "../../utils/StringUtils"
+import {findListingForUser} from "../../actions/listingActions"
+import listingService from "../../services/BazaarListingService"
 
-export default class ProfileComponent extends React.Component {
+class ProfileComponent extends React.Component {
     state = {
         listings: [],
         searchQuery: '',
         city: 'boston',
         view: 'LIST',
         editing: false,
-        activeTab: 'LISTINGS',
         profile: this.props.profile,
         profileUpdateState: {},
     };
@@ -34,8 +36,7 @@ export default class ProfileComponent extends React.Component {
                 this.setState(prevState => (
                     {
                         ...prevState,
-                        'profileUpdateState': newProfileUpdateState,
-                        editing: false
+                        'profileUpdateState': newProfileUpdateState
                     }));
             });
     };
@@ -64,17 +65,22 @@ export default class ProfileComponent extends React.Component {
     }
 
     componentDidMount() {
-        searchListings("boston", "jacket", 3)
-            .then(results => this.setState({
-                    listings: results
-                }
-            ))
+        //this.props.findListingsForUserId(this.props.profile.id);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.profile !== this.props.profile) { //If BazaarContainer retrieves updated profile (example: after make update request)
-            this.setState({profile: {...this.props.profile}})
+            this.setState({profile: {...this.props.profile}});
+            this.props.findListingsForUserId(this.props.profile.id);
         }
+
+        if (this.props.listings !== this.state.listings) {
+            this.setState({
+                listings: this.props.listings
+            })
+        }
+
+        
     }
 
     urlToRegionMapping = require("../../services/serviceResources/urlToRegionMapping.json");
@@ -299,42 +305,33 @@ export default class ProfileComponent extends React.Component {
                         }
                     </div>
                     <div className="col border border-success pt-3">
-                        <ul className="nav nav-tabs nav-fill">
-                            <li onClick={() => this.setState({activeTab: 'LISTINGS'})}
-                                className="nav-item">
-                                <a className={`btn nav-link ${this.state.activeTab === 'LISTINGS' ? 'active' : ''}`}>Listings</a>
-                            </li>
-                            <li onClick={() => this.setState({activeTab: 'FAVORITES'})}
-                                className="nav-item">
-                                <a className={`btn nav-link ${this.state.activeTab === 'FAVORITES' ? 'active' : ''}`}>Favorites</a>
-                            </li>
-                        </ul>
-                        {
-                            this.state.activeTab === 'LISTINGS' &&
-                            <div>
-                                <h2 className="py-2">My Listings</h2>
-                                {/*TODO: Show listings made by this user. Current placeholder is just 3 listings for "jacket" in Boston made on Craigslist.com*/}
-                                {
-                                    this.state.view === 'LIST' &&
-                                    <div className="list-group mt-2">
-                                        {this.state.listings.map((listing, idx) =>
-                                            <ListingRowComponent
-                                                key={idx}
-                                                idx={idx}
-                                                listing={listing}
-                                                city={this.state.city}/>
-                                        )}
-                                    </div>
-                                }
-                            </div>
-                        }
-                        {
-                            this.state.activeTab === 'FAVORITES' &&
-                            <div>
-                                <h2 className="py-2">My Favorites</h2>
-                                {/*TODO: Show listings favorited by this user.*/}
-                            </div>
-                        }
+                        <div>
+                            <h2 className="py-2">My Listings</h2>
+                            {
+                                this.state.view === 'LIST' &&
+                                <div>
+                                <div className="list-group mt-2">
+                                    {this.props.listings.map((listing, idx) =>
+                                        <ListingRowComponent
+                                            key={idx}
+                                            idx={idx}
+                                            listing={listing}
+                                            city={this.state.city}
+                                            type="bazaar"
+                                            />
+                                    )}
+                                </div>
+
+                                <br></br>
+                                <Link to={`/createlisting`}>
+                                    <button class="btn btn-success col">
+                                        Create New Listing
+                                    </button>
+                                </Link>
+
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>}
                 <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog"
@@ -365,3 +362,23 @@ export default class ProfileComponent extends React.Component {
     }
 
 }
+
+const stateToPropertyMapper = (state) => {
+    return {
+        listings: state.listings.listings
+    }
+}
+
+const dispatchToPropertyMapper = (dispatch) => {
+    return {
+        findListingsForUserId: (userId) => 
+            listingService.findListingsForUserId(userId)
+                .then(listings =>
+                        dispatch(findListingForUser(listings)))
+    }
+}
+
+export default connect(
+    stateToPropertyMapper,
+    dispatchToPropertyMapper)
+(ProfileComponent)

@@ -5,6 +5,7 @@ import ListingRowComponent from "../ListingRowComponent";
 import {searchListings} from "../../services/CraigslistService";
 import defaultProPic from "../../images/defaultProfilePic.jpg"
 import {capitalizeAllFirstLetter} from "../../utils/StringUtils";
+import BazaarListingService from '../../services/BazaarListingService';
 
 class PublicProfileComponent extends React.Component {
     state = {
@@ -15,7 +16,7 @@ class PublicProfileComponent extends React.Component {
     componentDidMount() {
         UserService.findUserById(this.props.userId)
             .then(result => this.setState({user: result}));
-        searchListings("boston", "jacket", 3)
+        BazaarListingService.findListingsForUserId(this.props.userId)
             .then(results => this.setState({listings: results}));
     }
 
@@ -53,14 +54,18 @@ class PublicProfileComponent extends React.Component {
                     <div className="col border border-success pt-3">
                         <div>
                             <h2 className="py-2">{this.state.user.username}'s Listings</h2>
-                            {/*TODO: Show listings made by this user. Current placeholder is just 3 listings for "jacket" in Boston made on Craigslist.com*/}
                             <div className="list-group mt-2">
-                                {this.state.listings.map((listing, idx) =>
-                                    <ListingRowComponent
-                                        idx={idx}
-                                        listing={listing}
-                                        city={this.state.city}/>
-                                )}
+                                <div className="list-group mt-2">
+                                        {this.state.listings.map((listing, idx) =>
+                                            <ListingRowComponent
+                                                key={idx}
+                                                idx={idx}
+                                                listing={listing}
+                                                city={this.state.city}
+                                                type="bazaar"
+                                                />
+                                        )}
+                                    </div>
                             </div>
                         </div>
                     </div>
