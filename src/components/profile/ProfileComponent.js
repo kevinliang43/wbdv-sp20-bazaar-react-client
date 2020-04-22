@@ -82,7 +82,7 @@ class ProfileComponent extends React.Component {
             })
         }
 
-        
+
     }
 
     urlToRegionMapping = require("../../services/serviceResources/urlToRegionMapping.json");
@@ -281,8 +281,11 @@ class ProfileComponent extends React.Component {
                                 <img className="justify-content-center img-fluid" id="profile-pic"
                                      src={this.state.profile.imageUrl ? this.state.profile.imageUrl : defaultProPic}/>
                                 <h3 className="mt-2">
-                                    {this.props.profile.username}
+                                    {this.props.profile.firstName} {this.props.profile.lastName}
                                 </h3>
+                                <h5 className="mt-2">
+                                    {this.props.profile.username}
+                                </h5>
                                 <span>
                                 <b>Operating Location: </b>
                                     {capitalizeAllFirstLetter(this.getRegionNameFromUrl(this.props.profile.city))}
@@ -365,7 +368,7 @@ const stateToPropertyMapper = (state) => {
 
 const dispatchToPropertyMapper = (dispatch) => {
     return {
-        findListingsForUserId: (userId) => 
+        findListingsForUserId: (userId) =>
             listingService.findListingsForUserId(userId)
                 .then(listings =>
                         dispatch(findListingForUser(listings)))
