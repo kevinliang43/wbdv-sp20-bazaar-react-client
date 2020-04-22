@@ -283,13 +283,16 @@ class ProfileComponent extends React.Component {
                                 <h3 className="mt-2">
                                     {this.props.profile.firstName} {this.props.profile.lastName}
                                 </h3>
-                                <h5 className="mt-2">
+                                <h4 className="mt-2">
                                     {this.props.profile.username}
-                                </h5>
+                                </h4>
                                 <span>
                                 <b>Operating Location: </b>
                                     {capitalizeAllFirstLetter(this.getRegionNameFromUrl(this.props.profile.city))}
                                 </span>
+                                <h6 className="mt-2">
+                                    {this.props.profile.email}
+                                </h6>
                                 <button className="btn btn-block btn-success my-3"
                                         id="editBtn" type="button"
                                         onClick={() => this.setState({
