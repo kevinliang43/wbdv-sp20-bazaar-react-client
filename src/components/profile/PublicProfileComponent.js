@@ -48,12 +48,7 @@ class PublicProfileComponent extends React.Component {
                             <img className="justify-content-center img-fluid" id="profile-pic"
                                  src={this.state.user.imageUrl ? this.state.user.imageUrl : defaultProPic}
                                  height="200" width="200"/>
-                            <h3 className="mt-2">
-                                {this.state.user.firstName} {this.state.user.lastName}
-                            </h3>
-                            <h5 className="mt-2">
-                                {this.state.user.username}
-                            </h5>
+                            <h3 className="mt-2">{this.state.user.username}</h3>
                             <span>
                                 <b>Operating Location: </b>
                                 {capitalizeAllFirstLetter(this.state.user.city ? this.getRegionNameFromUrl(this.state.user.city) : '')}
